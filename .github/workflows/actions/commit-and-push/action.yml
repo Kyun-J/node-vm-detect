@@ -1,0 +1,17 @@
+name: Commit and push
+
+inputs:
+  ref:
+    required: false
+    default: 'main'
+  message:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Commit and push
+      run: |
+        git add .
+        git commit -m "${{ inputs.message }}"
+        git push origin ${{ inputs.ref }}
