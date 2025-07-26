@@ -67,7 +67,9 @@
           ],
           "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
           "cflags_cc!": [ "-fno-exceptions" ],
-          "cflags_cc":  [ "-fexceptions", "-std=c++20" ]
+          "cflags_cc":  [ "-fexceptions", "-std=c++17" ],
+          "cxxflags_cc!": [ "-fno-exceptions" ],
+          "cxxflags_cc":  [ "-fexceptions", "-std=c++17" ]
         }
       ]
     }]
