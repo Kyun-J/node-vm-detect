@@ -101,3 +101,15 @@ jobs:
           git add .
           git commit -m "build:win:arm64"
           git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+
+
+  remove-publish-branch:
+    runs-on: ubuntu-latest
+    # needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build]
+    needs: [create-publish-branch, windows-arm64-build]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove publish branch
+        run: |
+          git push origin --delete ${{ needs.create-publish-branch.outputs.publish-branch }}
