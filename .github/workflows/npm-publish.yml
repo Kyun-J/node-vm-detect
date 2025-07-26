@@ -7,18 +7,18 @@ jobs:
   create-publish-branch:
     runs-on: ubuntu-latest
     outputs:
-      publish-branch: ${{ steps.create-publish-branch.outputs.publish-branch }}
+      publish-branch: ${{ steps.publish-branch.outputs.publish-branch }}
     steps:
       - uses: actions/checkout@v4
       - uses: fregante/setup-git-user@v2
-      - name: Create publish branch name
-        id: create-publish-branch
+      - name: Set publish branch name
+        id: publish-branch
         run: |
           echo "publish-branch=publish_${{ github.run_id }}" >> $GITHUB_OUTPUT
       - name: Create publish branch
         run: |
-          git checkout -b ${{ steps.create-publish-branch.outputs.publish-branch }}
-          git push origin ${{ steps.create-publish-branch.outputs.publish-branch }}
+          git checkout -b ${{ steps.publish-branch.outputs.publish-branch }}
+          git push origin ${{ steps.publish-branch.outputs.publish-branch }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -30,10 +30,55 @@ jobs:
         run: |
           git add .
           git commit -m "ready to publish"
-          git push origin ${{ steps.create-publish-branch.outputs.publish-branch }}
+          git push origin ${{ steps.publish-branch.outputs.publish-branch }}
 
-  macos-build:
-    runs-on: macos-latest
+  # macos-build:
+  #   runs-on: macos-latest
+  #   needs: [create-publish-branch]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
+  #         submodules: 'recursive'
+  #     - uses: fregante/setup-git-user@v2
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22
+  #     - name: Install dependencies
+  #       run: npm i
+  #     - name: Build
+  #       run: npm run gyp:mac
+  #     - name: Commit and push
+  #       run: |
+  #         git add .
+  #         git commit -m "build:mac"
+  #         git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+
+  # windows-x64-build:
+  #   runs-on: windows-latest
+  #   needs: [create-publish-branch, macos-build]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
+  #         submodules: 'recursive'
+  #     - uses: fregante/setup-git-user@v2
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22
+  #     - name: Install dependencies
+  #       run: npm i
+  #     - name: Build
+  #       run: npm run gyp:win:x64
+  #     - name: Commit and push
+  #       run: |
+  #         git add .
+  #         git commit -m "build:mac"
+  #         git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+
+  windows-arm64-build:
+    runs-on: windows-11-arm
+    # needs: [create-publish-branch, macos-build, windows-x64-build]
     needs: [create-publish-branch]
     steps:
       - uses: actions/checkout@v4
@@ -41,46 +86,17 @@ jobs:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           submodules: 'recursive'
       - uses: fregante/setup-git-user@v2
-      - name: Install dependencies
-        run: npm i
-      - name: Build
-        run: npm run gyp:mac
-      - name: Commit and push
-        run: |
-          git add .
-          git commit -m "build:mac"
-          git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
-
-  windows-x64-build:
-    runs-on: windows-latest
-    needs: [create-publish-branch, macos-build]
-    steps:
-      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          submodules: 'recursive'
-      - uses: fregante/setup-git-user@v2
+          node-version: 22
       - name: Install dependencies
         run: npm i
-      - name: Build
-        run: npm run gyp:win:x64
-      - name: Commit and push
+      - name: Set up MSVC ARM64 env
+        shell: cmd
         run: |
-          git add .
-          git commit -m "build:mac"
-          git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
-
-  windows-arm64-build:
-    runs-on: windows-11-arm
-    needs: [create-publish-branch, macos-build, windows-x64-build]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          submodules: 'recursive'
-      - uses: fregante/setup-git-user@v2
-      - name: Install dependencies
-        run: npm i
+          "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" ^
+              -arch=arm64 -host_arch=arm64 -no_logo
+      - run: node-gyp rebuild --arch=arm64 --verbose
       - name: Build
         run: npm run gyp:win:arm64
       - name: Commit and push
@@ -88,5 +104,3 @@ jobs:
           git add .
           git commit -m "build:mac"
           git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
-
-
