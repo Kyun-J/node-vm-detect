@@ -25,10 +25,10 @@
           "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
           "msvs_settings": {
             "VCLinkerTool": {
-              "AdditionalOptions": [ "/VERBOSE" ]
+              "AdditionalOptions": [ "/fileLogger", "/fileLoggerParameters:Verbosity=diagnostic;LogFile=msbuild.log" ]
             },
             "VCCLCompilerTool": {
-              "AdditionalOptions": [ "/Bt" ]
+              "AdditionalOptions": [ "/d2cgsummary" ]
             }
           }
         }
