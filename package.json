@@ -1,11 +1,10 @@
 {
   "name": "node-vm-detect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "VM Environment Detection Library in Nodejs",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "files": [
     "dist"
   ],

@@ -9,7 +9,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
       fileName: (format) => {
         if (format === 'es') return 'index.esm.js';
-        if (format === 'cjs') return 'index.js';
+        if (format === 'cjs') return 'index.cjs';
         return `index.${format}.js`;
       },
     },
