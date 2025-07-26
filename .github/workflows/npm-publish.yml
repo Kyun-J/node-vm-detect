@@ -119,11 +119,11 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Build
-        run: npm run gyp:linux:x64
+        run: npm run gyp:linux
       - name: Commit and push
         run: |
           git add .
-          git commit -m "build:linux:x64"
+          git commit -m "build:linux"
           git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
 
   # remove-publish-branch:
