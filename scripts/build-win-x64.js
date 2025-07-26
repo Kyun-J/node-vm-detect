@@ -7,7 +7,3 @@ fs.copyFileSync(
   './build/Release/detectWindows.node',
   './dist/win/x64/detectWindows.node',
 );
-fs.copyFileSync(
-  './build/Release/detectWindows.pdb',
-  './dist/win/x64/detectWindows.pdb',
-);

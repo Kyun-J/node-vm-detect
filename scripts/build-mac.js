@@ -7,16 +7,10 @@ fs.copyFileSync(
   './build/Release/detectMac.node',
   './dist/mac/x64/detectMac.node',
 );
-execSync(
-  'dsymutil dist/mac/x64/detectMac.node -o dist/mac/x64/detectMac.node.dSYM',
-);
 
 fs.mkdirSync('./dist/mac/arm64', { recursive: true });
 execSync('node-gyp rebuild --arch=arm64');
 fs.copyFileSync(
   './build/Release/detectMac.node',
   './dist/mac/arm64/detectMac.node',
-);
-execSync(
-  'dsymutil dist/mac/arm64/detectMac.node -o dist/mac/arm64/detectMac.node.dSYM',
 );
