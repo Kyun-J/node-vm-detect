@@ -106,6 +106,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
+          submodules: 'recursive'
       - uses: fregante/setup-git-user@v2
       - uses: actions/setup-node@v4
         with:
