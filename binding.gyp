@@ -22,15 +22,7 @@
           "dependencies": [
             "<!(node -p \"require('node-addon-api').gyp\")"
           ],
-          "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
-          "msvs_settings": {
-            "VCLinkerTool": {
-              "AdditionalOptions": [ "/fileLogger", "/fileLoggerParameters:Verbosity=diagnostic;LogFile=msbuild.log" ]
-            },
-            "VCCLCompilerTool": {
-              "AdditionalOptions": [ "/d2cgsummary" ]
-            }
-          }
+          "defines": [ 'NAPI_CPP_EXCEPTIONS' ]
         }
       ]
     }],
