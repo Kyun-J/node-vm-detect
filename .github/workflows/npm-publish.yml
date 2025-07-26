@@ -98,12 +98,55 @@ jobs:
   #         git commit -m "build:win:arm64"
   #         git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
 
-  remove-publish-branch:
+  linux-x64-build:
     runs-on: ubuntu-latest
     needs: [create-publish-branch, macos-build, windows-x64-build]
-    if: always()
     steps:
       - uses: actions/checkout@v4
-      - name: Remove publish branch
+        with:
+          ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
+      - uses: fregante/setup-git-user@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm i
+      - name: Build
+        run: npm run gyp:linux:x64
+      - name: Commit and push
         run: |
-          git push origin --delete ${{ needs.create-publish-branch.outputs.publish-branch }}
+          git add .
+          git commit -m "build:linux:x64"
+          git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+
+  linux-arm64-build:
+    runs-on: ubuntu-24.04-arm
+    needs: [create-publish-branch, macos-build, windows-x64-build, linux-x64-build]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
+          submodules: 'recursive'
+      - uses: fregante/setup-git-user@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm i
+      - name: Build
+        run: npm run gyp:linux:arm64
+      - name: Commit and push
+        run: |
+          git add .
+          git commit -m "build:linux:arm64"
+          git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+
+  # remove-publish-branch:
+  #   runs-on: ubuntu-latest
+  #   needs: [create-publish-branch, macos-build, windows-x64-build, linux-x64-build, linux-arm64-build]
+  #   if: always()
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Remove publish branch
+  #       run: |
+  #         git push origin --delete ${{ needs.create-publish-branch.outputs.publish-branch }}
