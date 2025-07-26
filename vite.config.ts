@@ -14,8 +14,12 @@ export default defineConfig({
       },
     },
     rollupOptions: {
+      external: ['node:module'],
       output: {
         dynamicImportInCjs: false,
+        globals: {
+          'node:module': 'module',
+        },
       },
     },
     target: 'node18',

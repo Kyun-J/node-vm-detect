@@ -1,3 +1,5 @@
+import { createRequire } from 'node:module';
+
 export interface VMInfo {
   isVM: boolean;
   brand: string;
@@ -12,7 +14,7 @@ let napi: {
   getVMInfo: () => Promise<VMInfo>;
 };
 
-const getNapi = async () => {
+const getNapi = () => {
   if (napi) {
     return napi;
   }
@@ -35,11 +37,10 @@ const getNapi = async () => {
     throw new Error('Unsupported platform');
   }
 
-  napi = await import(napiPath);
+  napi = createRequire(import.meta.url)(napiPath);
   return napi;
 };
 
 export const getVMInfo = async (): Promise<VMInfo> => {
-  const napi = await getNapi();
-  return napi.getVMInfo();
+  return getNapi().getVMInfo();
 };

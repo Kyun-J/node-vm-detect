@@ -9,4 +9,13 @@ export default tseslint.config({
     prettierRecommended,
   ],
   ignores: ['dist/**/*', 'build/**/*', 'VMAware/**/*'],
+  files: ['**/*.ts', '**/*.js'],
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
+  },
 });
