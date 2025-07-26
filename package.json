@@ -25,9 +25,10 @@
   "scripts": {
     "install": "npm install --ignore-scripts",
     "gyp:mac": "node ./scripts/build-mac.js",
-    "gyp:win:x64": "node ./scripts/build-win-x64.js",
     "gyp:win:arm64": "node ./scripts/build-win-arm64.js",
-    "gyp:linux": "node ./scripts/build-linux.js",
+    "gyp:win:x64": "node ./scripts/build-win-x64.js",
+    "gyp:linux:arm64": "node ./scripts/build-linux-arm64.js",
+    "gyp:linux:x64": "node ./scripts/build-linux-x64.js",
     "build:test": "node ./scripts/build-test.js",
     "bundle": "vite build",
     "pre-commit": "node ./scripts/hook-pre-commit.js"

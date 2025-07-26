@@ -5,13 +5,15 @@ execSync('npm run bundle');
 if (process.platform === 'win32') {
   if (process.arch === 'x64') {
     execSync('npm run gyp:win:x64');
-  } else if (process.arch === 'arm64') {
-    execSync('npm run gyp:win:arm64');
   }
 } else if (process.platform === 'darwin') {
   execSync('npm run gyp:mac');
 } else if (process.platform === 'linux') {
-  execSync('npm run gyp:linux');
+  if (process.arch === 'x64') {
+    execSync('npm run gyp:linux:x64');
+  } else if (process.arch === 'arm64') {
+    execSync('npm run gyp:linux:arm64');
+  }
 }
 
 const test = async () => {
