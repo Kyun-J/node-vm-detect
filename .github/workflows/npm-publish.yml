@@ -111,6 +111,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Select Clang
+        run: |
+          echo "CC=clang"   >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CXXFLAGS=-std=c++20 -fexceptions" >> $GITHUB_ENV
       - name: Install dependencies
         run: npm i
       - name: Build
