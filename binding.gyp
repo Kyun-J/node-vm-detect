@@ -65,6 +65,7 @@
           "dependencies": [
             "<!(node -p \"require('node-addon-api').gyp\")"
           ],
+          "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
           "cflags": ["-std=c++20", "-fexceptions"],
           "cxxflags": ["-std=c++20", "-fexceptions"]
         }
