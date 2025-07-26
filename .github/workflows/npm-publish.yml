@@ -73,7 +73,7 @@ jobs:
   #     - name: Commit and push
   #       run: |
   #         git add .
-  #         git commit -m "build:mac"
+  #         git commit -m "build:win:x64"
   #         git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
 
   windows-arm64-build:
@@ -91,16 +91,14 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm i
-      - name: Set up MSVC ARM64 env
-        shell: cmd
-        run: |
-          "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" ^
-              -arch=arm64 -host_arch=arm64 -no_logo
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: arm64
       - run: node-gyp rebuild --arch=arm64 --verbose
       - name: Build
         run: npm run gyp:win:arm64
       - name: Commit and push
         run: |
           git add .
-          git commit -m "build:mac"
+          git commit -m "build:win:arm64"
           git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
