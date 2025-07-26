@@ -66,8 +66,8 @@
             "<!(node -p \"require('node-addon-api').gyp\")"
           ],
           "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
-          "cflags": ["-std=c++20", "-fexceptions", "-D_GNU_SOURCE"],
-          "cxxflags": ["-std=c++20", "-fexceptions", "-D_GNU_SOURCE"]
+          "cflags_cc!": [ "-fno-exceptions" ],
+          "cflags_cc":  [ "-fexceptions", "-std=c++20" ]
         }
       ]
     }]
