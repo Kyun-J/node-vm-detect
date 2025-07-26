@@ -1,0 +1,3 @@
+[submodule "VMAware"]
+	path = VMAware
+	url = https://github.com/kernelwernel/VMAware.git

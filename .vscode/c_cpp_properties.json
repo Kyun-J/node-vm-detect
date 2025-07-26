@@ -1,0 +1,49 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/VMAware/src/**",
+                "${workspaceFolder}/src/**",
+                "${env:USERPROFILE}/AppData/Local/node-gyp/Cache/**/include/node"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-msvc-x64"
+        },
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/node_modules/node-addon-api/**",
+                "~/.nvm/versions/node/**/include/node",
+                "${workspaceFolder}/VMAware/src/**",
+                "${workspaceFolder}/src/**"
+            ],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "mergeConfigurations": false,
+            "compilerPath": "/usr/bin/clang",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/node_modules/node-addon-api/**",
+                    "~/.nvm/versions/node/**/include/node",
+                    "${workspaceFolder}/VMAware/src/**",
+                    "${workspaceFolder}/src/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}

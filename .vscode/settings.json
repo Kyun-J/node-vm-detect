@@ -1,0 +1,15 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "initializer_list": "cpp"
+  }
+}

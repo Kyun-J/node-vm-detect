@@ -1,0 +1,7 @@
+out
+dist
+build
+LICENSE
+tsconfig.json
+package-lock.json
+VMAware

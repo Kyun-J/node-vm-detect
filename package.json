@@ -1,0 +1,54 @@
+{
+  "name": "node-vm-detect",
+  "version": "0.0.1",
+  "description": "VM Environment Detection Library in Nodejs",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "virtual machine",
+    "vm",
+    "vmaware",
+    "detect",
+    "cross-platform",
+    "nodejs",
+    "typescript",
+    "javascript"
+  ],
+  "scripts": {
+    "install": "npm install --ignore-scripts",
+    "gyp:mac": "node ./scripts/build-mac.js",
+    "bundle": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kyun-J/node-vm-detect.git"
+  },
+  "author": "Kyun-J",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kyun-J/node-vm-detect/issues"
+  },
+  "homepage": "https://github.com/Kyun-J/node-vm-detect#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/node": "18",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "node-addon-api": "^8.5.0",
+    "node-gyp": "^11.2.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}
