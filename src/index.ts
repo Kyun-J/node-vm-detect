@@ -23,14 +23,18 @@ const getNapi = () => {
   if (process.platform === 'win32') {
     if (process.arch === 'x64') {
       napiPath = './win/x64/detectWindows.node';
-    } else if (process.arch === 'arm64') {
-      napiPath = './win/arm64/detectWindows.node';
     }
   } else if (process.platform === 'darwin') {
     if (process.arch === 'arm64') {
       napiPath = './mac/arm64/detectMac.node';
     } else if (process.arch === 'x64') {
       napiPath = './mac/x64/detectMac.node';
+    }
+  } else if (process.platform === 'linux') {
+    if (process.arch === 'x64') {
+      napiPath = './linux/x64/detectLinux.node';
+    } else if (process.arch === 'arm64') {
+      napiPath = './linux/arm64/detectLinux.node';
     }
   }
   if (!napiPath) {
