@@ -94,7 +94,6 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: arm64
-      - run: node-gyp rebuild --arch=arm64 --verbose
       - name: Build
         run: npm run gyp:win:arm64
       - name: Commit and push
