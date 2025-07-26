@@ -126,7 +126,7 @@ jobs:
           git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
 
   linux-arm64-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: [create-publish-branch, macos-build, windows-x64-build, linux-x64-build]
     steps:
       - uses: actions/checkout@v4
