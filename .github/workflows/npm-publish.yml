@@ -91,16 +91,14 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm i
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: arm64
       - name: Build
         run: npm run gyp:win:arm64
-      - name: Commit and push
-        run: |
-          git add .
-          git commit -m "build:win:arm64"
-          git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
+      - run: C:\'Program Files'\'Microsoft Visual Studio'\2022\Enterprise\MSBuild\Current\Bin\arm64\MSBuild.exe 'build/binding.sln'
+      # - name: Commit and push
+      #   run: |
+      #     git add .
+      #     git commit -m "build:win:arm64"
+      #     git push origin ${{ needs.create-publish-branch.outputs.publish-branch }}
 
 
   remove-publish-branch:
