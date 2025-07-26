@@ -1,9 +1,6 @@
 name: Init repository
 
 inputs:
-  ref:
-    required: false
-    default: 'main'
   linux-clang:
     required: false
     default: 'false'
@@ -11,10 +8,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.ref }}
-        submodules: 'recursive'
     - uses: fregante/setup-git-user@v2
     - uses: actions/setup-node@v4
       with:
