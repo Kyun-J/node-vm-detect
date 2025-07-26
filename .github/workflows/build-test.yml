@@ -27,6 +27,9 @@ jobs:
   windows-x64-test:
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: ./.github/workflows/actions/init-repository
       - name: Build test
         run: npm run build:test
