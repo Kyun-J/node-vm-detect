@@ -1,7 +1,7 @@
 {
   "name": "node-vm-detect",
   "version": "0.0.2",
-  "description": "VM Environment Detection Library in Nodejs",
+  "description": "VM Environment Detection Library for Nodejs",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -29,8 +29,7 @@
     "gyp:linux:arm64": "node ./scripts/build-linux-arm64.js",
     "gyp:linux:x64": "node ./scripts/build-linux-x64.js",
     "build:test": "node ./scripts/build-test.js",
-    "bundle": "vite build",
-    "pre-commit": "node ./scripts/hook-pre-commit.js"
+    "bundle": "vite build"
   },
   "repository": {
     "type": "git",
