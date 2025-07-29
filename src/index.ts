@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module';
+import type { CoreSettingFlags, TechniqueFlags } from './flags';
 
 export interface VMInfo {
   isVM: boolean;
@@ -7,11 +8,15 @@ export interface VMInfo {
   conclusion: string;
   percentage: number;
   detectedCount: number;
-  techniqueCount: number;
 }
 
+export type GetVMInfoOptions = {
+  core?: CoreSettingFlags;
+  disable?: TechniqueFlags[];
+};
+
 let napi: {
-  getVMInfo: () => Promise<VMInfo>;
+  getVMInfo: (options?: GetVMInfoOptions) => Promise<VMInfo>;
 };
 
 const getNapi = () => {
@@ -45,6 +50,8 @@ const getNapi = () => {
   return napi;
 };
 
-export const getVMInfo = async (): Promise<VMInfo> => {
-  return getNapi().getVMInfo();
+export const getVMInfo = async (
+  options?: GetVMInfoOptions,
+): Promise<VMInfo> => {
+  return getNapi().getVMInfo(options);
 };
