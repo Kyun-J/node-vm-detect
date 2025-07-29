@@ -1,10 +1,10 @@
 #include <napi.h>
 
-void InitGetVMInfo(napi_env env, napi_value exports);
+void InitGetVMInfo(Napi::Env env, Napi::Object exports);
 
-napi_value Init(napi_env env, napi_value exports) {
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
     InitGetVMInfo(env, exports);
     return exports;
 }
 
-NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)

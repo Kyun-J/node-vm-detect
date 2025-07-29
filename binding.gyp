@@ -42,6 +42,7 @@
           "dependencies": [
             "<!(node -p \"require('node-addon-api').gyp\")"
           ],
+          "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
           "xcode_settings": {
             "OTHER_CFLAGS": ["-std=c++20", "-fexceptions"],
             "OTHER_CPLUSPLUSFLAGS": [ "-std=c++20", "-fexceptions"]

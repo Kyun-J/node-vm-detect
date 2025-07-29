@@ -1,94 +1,65 @@
 #include <napi.h>
 #include "vmaware.hpp"
 
-struct VMDetectWorkerData {
-    napi_async_work work;
-    napi_deferred deferred;
+class VMDetectWorker : public Napi::AsyncWorker {
+private:
     VM::vmaware vm;
     std::string errorMessage;
+    Napi::Promise::Deferred deferred;
+
+public:
+    VMDetectWorker(Napi::Env env) : Napi::AsyncWorker(env), deferred(Napi::Promise::Deferred::New(env)) {}
+
+    Napi::Promise GetPromise() {
+        return deferred.Promise();
+    }
+
+    void Execute() override {
+        try {
+            vm = VM::vmaware();
+        } catch (const std::exception& e) {
+            errorMessage = e.what();
+        } catch (...) {
+            errorMessage = "Unknown error occurred.";
+        }
+    }
+
+    void OnOK() override {
+        Napi::Env env = Env();
+        Napi::HandleScope scope(env);
+
+        if (!errorMessage.empty()) {
+            Napi::Error error = Napi::Error::New(env, errorMessage);
+            deferred.Reject(error.Value());
+        } else {
+            Napi::Object result = Napi::Object::New(env);
+
+            result.Set("isVM", Napi::Boolean::New(env, vm.is_vm));
+            result.Set("brand", Napi::String::New(env, vm.brand));
+            result.Set("type", Napi::String::New(env, vm.type));
+            result.Set("conclusion", Napi::String::New(env, vm.conclusion));
+            result.Set("percentage", Napi::Number::New(env, vm.percentage));
+            result.Set("detectedCount", Napi::Number::New(env, vm.detected_count));
+            result.Set("techniqueCount", Napi::Number::New(env, vm.technique_count));
+
+            deferred.Resolve(result);
+        }
+    }
+
+    void OnError(const Napi::Error& e) override {
+        deferred.Reject(e.Value());
+    }
 };
 
-void VMDetectExecuteWorker(napi_env env, void* data) {
-    VMDetectWorkerData* workerData = (VMDetectWorkerData*)data;
-    try {
-        workerData->vm = VM::vmaware();
-    } catch (const std::exception& e) {
-        workerData->errorMessage = e.what();
-    } catch (...) {
-        workerData->errorMessage = "Unknown error occurred.";
-    }
+Napi::Value GetVMInfo(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    VMDetectWorker* worker = new VMDetectWorker(env);
+    worker->Queue();
+
+    return worker->GetPromise();
 }
 
-void VMDetectCompleteWorker(napi_env env, napi_status status, void* data) {
-    VMDetectWorkerData* workerData = (VMDetectWorkerData*)data;
-
-    if (status != napi_ok) {
-        napi_value error;
-        napi_create_string_utf8(env, "Error occurred during asynchronous operation", NAPI_AUTO_LENGTH, &error);
-        napi_reject_deferred(env, workerData->deferred, error);
-    } else if (!workerData->errorMessage.empty()) {
-        napi_value error;
-        napi_create_string_utf8(env, workerData->errorMessage.c_str(), NAPI_AUTO_LENGTH, &error);
-        napi_reject_deferred(env, workerData->deferred, error);
-    } else {
-        napi_value result;
-        napi_create_object(env, &result);
-
-        napi_value isVM;
-        napi_get_boolean(env, workerData->vm.is_vm, &isVM);
-        napi_set_named_property(env, result, "isVM", isVM);
-
-        napi_value brand;
-        napi_create_string_utf8(env, workerData->vm.brand.c_str(), NAPI_AUTO_LENGTH, &brand);
-        napi_set_named_property(env, result, "brand", brand);
-
-        napi_value type;
-        napi_create_string_utf8(env, workerData->vm.type.c_str(), NAPI_AUTO_LENGTH, &type);
-        napi_set_named_property(env, result, "type", type);
-
-        napi_value conclusion;
-        napi_create_string_utf8(env, workerData->vm.conclusion.c_str(), NAPI_AUTO_LENGTH, &conclusion);
-        napi_set_named_property(env, result, "conclusion", conclusion);
-
-        napi_value percentage;
-        napi_create_int32(env, workerData->vm.percentage, &percentage);
-        napi_set_named_property(env, result, "percentage", percentage);
-
-        napi_value detected_count;
-        napi_create_int32(env, workerData->vm.detected_count, &detected_count);
-        napi_set_named_property(env, result, "detectedCount", detected_count);
-
-        napi_value technique_count;
-        napi_create_int32(env, workerData->vm.technique_count, &technique_count);
-        napi_set_named_property(env, result, "techniqueCount", technique_count);
-
-        napi_resolve_deferred(env, workerData->deferred, result);
-    }
-
-    napi_delete_async_work(env, workerData->work);
-    delete workerData;
-}
-
-napi_value GetVMInfo(napi_env env, napi_callback_info info) {
-    napi_value promise;
-    napi_deferred deferred;
-    napi_create_promise(env, &deferred, &promise);
-
-    VMDetectWorkerData* workerData = new VMDetectWorkerData();
-    workerData->deferred = deferred;
-
-    napi_value resourceName;
-    napi_create_string_utf8(env, "GetVMInfo", NAPI_AUTO_LENGTH, &resourceName);
-
-    napi_create_async_work(env, NULL, resourceName, VMDetectExecuteWorker, VMDetectCompleteWorker, workerData, &workerData->work);
-    napi_queue_async_work(env, workerData->work);
-
-    return promise;
-}
-
-void InitGetVMInfo(napi_env env, napi_value exports) {
-    napi_property_descriptor desc[] = {
-        { "getVMInfo", 0, GetVMInfo, 0, 0, 0, napi_default, 0 }
-    };
-    napi_define_properties(env, exports, 1, desc);
+void InitGetVMInfo(Napi::Env env, Napi::Object exports) {
+    exports.Set("getVMInfo", Napi::Function::New(env, GetVMInfo));
 }

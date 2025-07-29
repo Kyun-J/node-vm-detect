@@ -3,9 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
+                "${workspaceFolder}/node_modules/node-addon-api/**",
                 "${workspaceFolder}/VMAware/src/**",
-                "${workspaceFolder}/src/**",
-                "${env:USERPROFILE}/AppData/Local/node-gyp/Cache/**/include/node"
+                "${workspaceFolder}/src/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -37,7 +37,6 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}/node_modules/node-addon-api/**",
-                    "~/.nvm/versions/node/**/include/node",
                     "${workspaceFolder}/VMAware/src/**",
                     "${workspaceFolder}/src/**"
                 ],
