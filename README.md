@@ -20,7 +20,6 @@ const {
   conclusion,
   percentage,
   detectedCount,
-  techniqueCount,
 } = await getVMInfo();
 ```
 For detailed information on VM detection and each related item, please refer to [VMAware](https://github.com/kernelwernel/VMAware).
@@ -47,3 +46,6 @@ VMAware supports 32-bit environments, but this library only supports 64-bit plat
 
 There is currently an issue with building for Windows ARM architectures, which is under investigation.  
 Future plans include implementing useful features from VMAware such as its flag system.
+
+## LICENSE
+MIT
