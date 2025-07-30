@@ -1,4 +1,4 @@
-export type CoreSettingFlags = 'ALL' | 'DEFAULT';
+export type PresetFlags = 'ALL' | 'DEFAULT';
 
 export type SettingFlags =
   | 'NO_MEMO'

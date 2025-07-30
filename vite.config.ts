@@ -20,6 +20,7 @@ export default defineConfig({
         globals: {
           'node:module': 'module',
         },
+        exports: 'named',
       },
     },
     target: 'node18',
