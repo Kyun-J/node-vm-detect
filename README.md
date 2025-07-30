@@ -24,7 +24,6 @@ const {
   conclusion,
   percentage,
   detectedCount,
-  techniqueCount,
 } = await getVMInfo();
 ```
 ## Setting flags
