@@ -29,7 +29,7 @@ const {
 ```
 ## Setting flags
 These correspond to the [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
-`Presets` can be selected from `Default` or `All` (only one must be selected).  
+`Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
 Other flags can be specified as an array in the `settings` field.
 ### Setting a preset
 ```

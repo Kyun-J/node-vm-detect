@@ -27,7 +27,7 @@ const {
 ```
 ## Setting flags
 VMAware의 [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags)에 대응됩니다.  
-DEFAULT, ALL 은 하나만 선택해서 `preset` 으로 지정합니다.  
+`DEFAULT`, `ALL` 은 하나만 선택해서 `preset` 으로 지정합니다.  
 그 외 flags는 `settings`에 배열 형태로 지정합니다.
 ### 기본 preset 지정
 ```
