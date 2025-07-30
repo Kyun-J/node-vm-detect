@@ -83,8 +83,6 @@ jobs:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           submodules: 'recursive'
       - uses: ./.github/workflows/actions/init-repository
-        with:
-          linux-clang: 'true'
       - name: Build
         run: npm run gyp:linux:x64
       - uses: ./.github/workflows/actions/commit-and-push
@@ -101,8 +99,6 @@ jobs:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           submodules: 'recursive'
       - uses: ./.github/workflows/actions/init-repository
-        with:
-          linux-clang: 'true'
       - name: Build
         run: npm run gyp:linux:arm64
       - uses: ./.github/workflows/actions/commit-and-push
