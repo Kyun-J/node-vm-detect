@@ -18,6 +18,8 @@
     "detect",
     "cross-platform",
     "nodejs",
+    "electron",
+    "C++",
     "typescript",
     "javascript"
   ],
