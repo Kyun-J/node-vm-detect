@@ -7,6 +7,7 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: 22
+    - name: Setup Clang for Linux
       shell: bash
       run: |
         echo "CC=clang"   >> $GITHUB_ENV
