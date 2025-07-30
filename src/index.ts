@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import type { CoreSettingFlags, TechniqueFlags } from './flags';
+import type { PresetFlags, SettingFlags, TechniqueFlags } from './flags';
 
 export interface VMInfo {
   isVM: boolean;
@@ -10,20 +10,24 @@ export interface VMInfo {
   detectedCount: number;
 }
 
-export type GetVMInfoOptions = {
-  core?: CoreSettingFlags;
-  disable?: TechniqueFlags[];
+export type VMInfoOptions = {
+  preset?: PresetFlags;
+  settings?: SettingFlags[];
+  techniques?: {
+    only?: TechniqueFlags[];
+    disable?: TechniqueFlags[];
+  };
 };
 
-let napi: {
-  getVMInfo: (options?: GetVMInfoOptions) => Promise<VMInfo>;
-};
-
-const getNapi = () => {
-  if (napi) {
-    return napi;
-  }
-
+const nodeVMDetect: {
+  info: (options?: VMInfoOptions) => Promise<VMInfo>;
+  isVM: (options?: VMInfoOptions) => Promise<boolean>;
+  brand: (options?: VMInfoOptions) => Promise<string>;
+  type: (options?: VMInfoOptions) => Promise<string>;
+  conclusion: (options?: VMInfoOptions) => Promise<string>;
+  percentage: (options?: VMInfoOptions) => Promise<number>;
+  detectedCount: (options?: VMInfoOptions) => Promise<number>;
+} = (() => {
   let napiPath: string | undefined;
   if (process.platform === 'win32') {
     if (process.arch === 'x64') {
@@ -46,12 +50,28 @@ const getNapi = () => {
     throw new Error('Unsupported platform');
   }
 
-  napi = createRequire(import.meta.url)(napiPath);
-  return napi;
-};
+  return createRequire(import.meta.url)(napiPath);
+})();
 
-export const getVMInfo = async (
-  options?: GetVMInfoOptions,
-): Promise<VMInfo> => {
-  return getNapi().getVMInfo(options);
-};
+export default nodeVMDetect;
+
+export const getVMInfo = (options?: VMInfoOptions): Promise<VMInfo> =>
+  nodeVMDetect.info(options);
+
+export const getIsVM = (options?: VMInfoOptions): Promise<boolean> =>
+  nodeVMDetect.isVM(options);
+
+export const getBrand = (options?: VMInfoOptions): Promise<string> =>
+  nodeVMDetect.brand(options);
+
+export const getType = (options?: VMInfoOptions): Promise<string> =>
+  nodeVMDetect.type(options);
+
+export const getConclusion = (options?: VMInfoOptions): Promise<string> =>
+  nodeVMDetect.conclusion(options);
+
+export const getPercentage = (options?: VMInfoOptions): Promise<number> =>
+  nodeVMDetect.percentage(options);
+
+export const getDetectedCount = (options?: VMInfoOptions): Promise<number> =>
+  nodeVMDetect.detectedCount(options);
