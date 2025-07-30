@@ -4,6 +4,6 @@ import fs from 'fs';
 fs.mkdirSync('./dist/win/x64', { recursive: true });
 execSync('node-gyp rebuild --arch=x64');
 fs.copyFileSync(
-  './build/Release/detectWindows.node',
-  './dist/win/x64/detectWindows.node',
+  './build/Release/vmDetect.node',
+  './dist/win/x64/vmDetect.node',
 );

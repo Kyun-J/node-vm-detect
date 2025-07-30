@@ -10,14 +10,14 @@ export interface VMInfo {
   detectedCount: number;
 }
 
-export type VMInfoOptions = {
+export interface VMInfoOptions {
   preset?: PresetFlags;
   settings?: SettingFlags[];
   techniques?: {
     only?: TechniqueFlags[];
     disable?: TechniqueFlags[];
   };
-};
+}
 
 const nodeVMDetect: {
   info: (options?: VMInfoOptions) => Promise<VMInfo>;
@@ -31,19 +31,19 @@ const nodeVMDetect: {
   let napiPath: string | undefined;
   if (process.platform === 'win32') {
     if (process.arch === 'x64') {
-      napiPath = './win/x64/detectWindows.node';
+      napiPath = './win/x64/vmDetect.node';
     }
   } else if (process.platform === 'darwin') {
     if (process.arch === 'arm64') {
-      napiPath = './mac/arm64/detectMac.node';
+      napiPath = './mac/arm64/vmDetect.node';
     } else if (process.arch === 'x64') {
-      napiPath = './mac/x64/detectMac.node';
+      napiPath = './mac/x64/vmDetect.node';
     }
   } else if (process.platform === 'linux') {
     if (process.arch === 'x64') {
-      napiPath = './linux/x64/detectLinux.node';
+      napiPath = './linux/x64/vmDetect.node';
     } else if (process.arch === 'arm64') {
-      napiPath = './linux/arm64/detectLinux.node';
+      napiPath = './linux/arm64/vmDetect.node';
     }
   }
   if (!napiPath) {
