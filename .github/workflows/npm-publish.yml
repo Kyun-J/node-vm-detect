@@ -76,7 +76,7 @@ jobs:
 
   linux-x64-build:
     runs-on: ubuntu-latest
-    needs: [create-publish-branch, macos-build, windows-x64-build]
+    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -92,7 +92,7 @@ jobs:
 
   linux-arm64-build:
     runs-on: ubuntu-24.04-arm
-    needs: [create-publish-branch, macos-build, windows-x64-build, linux-x64-build]
+    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build, linux-x64-build]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -108,7 +108,7 @@ jobs:
 
   # npm-publish:
   #   runs-on: ubuntu-latest
-  #   needs: [create-publish-branch, macos-build, windows-x64-build, linux-x64-build, linux-arm64-build]
+  #   needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build, linux-x64-build, linux-arm64-build]
   #   steps:
   #     - uses: actions/checkout@v4
   #       with:
