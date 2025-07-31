@@ -119,7 +119,7 @@ VMAware는 32bit를 지원하나, 이 라이브러리는 64bit만 지원합니�
 | ------- | ----- | -------- |
 | Windows | x64   | ✅        |
 | Windows | x86   | ❌        |
-| Windows | Arm64 | ❌ (TODO) |
+| Windows | Arm64 | ✅        |
 | Windows | Arm32 | ❌        |
 | MacOS   | x64   | ✅        |
 | MacOS   | Arm64 | ✅        |
@@ -127,9 +127,6 @@ VMAware는 32bit를 지원하나, 이 라이브러리는 64bit만 지원합니�
 | Linux   | x86   | ❌        |
 | Linux   | Arm64 | ✅        |
 | Linux   | Arm32 | ❌        |
-
-# TODO
-windows Arm arch빌드에 문제가 있어 확인 중입니다.  
 
 # LICENSE
 MIT
