@@ -34,15 +34,15 @@ jobs:
       - name: Build test
         run: npm run build:test
 
-  # windows-arm64-test:
-  #   runs-on: windows-11-arm
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: 'recursive'
-  #     - uses: ./.github/workflows/actions/init-repository
-  #     - name: Build test
-  #       run: npm run build:test
+  windows-arm64-test:
+    runs-on: windows-11-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - uses: ./.github/workflows/actions/init-repository
+      - name: Build test
+        run: npm run build:test
 
   linux-x64-test:
     runs-on: ubuntu-latest
@@ -51,8 +51,6 @@ jobs:
         with:
           submodules: 'recursive'
       - uses: ./.github/workflows/actions/init-repository
-        with:
-          linux-clang: 'true'
       - name: Build test
         run: npm run build:test
 
@@ -63,7 +61,5 @@ jobs:
         with:
           submodules: 'recursive'
       - uses: ./.github/workflows/actions/init-repository
-        with:
-          linux-clang: 'true'
       - name: Build test
         run: npm run build:test

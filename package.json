@@ -1,6 +1,6 @@
 {
   "name": "node-vm-detect",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "VM Environment Detection Library for Nodejs",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -25,11 +25,8 @@
   ],
   "scripts": {
     "install": "npm install --ignore-scripts",
-    "gyp:mac": "node ./scripts/build-mac.js",
-    "gyp:win:arm64": "node ./scripts/build-win-arm64.js",
-    "gyp:win:x64": "node ./scripts/build-win-x64.js",
-    "gyp:linux:arm64": "node ./scripts/build-linux-arm64.js",
-    "gyp:linux:x64": "node ./scripts/build-linux-x64.js",
+    "gyp:darwin": "node ./scripts/build-gyp-darwin.js",
+    "gyp": "node ./scripts/build-gyp.js",
     "build:test": "node ./scripts/build-test.js",
     "bundle": "vite build"
   },
@@ -45,13 +42,13 @@
   "homepage": "https://github.com/Kyun-J/node-vm-detect#readme",
   "devDependencies": {
     "@eslint/js": "^9.31.0",
-    "@types/node": "18",
+    "@types/node": "^18.19.121",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
     "jiti": "^2.5.1",
     "node-addon-api": "^8.5.0",
-    "node-gyp": "^11.2.0",
+    "node-gyp": "^11.3.0",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",

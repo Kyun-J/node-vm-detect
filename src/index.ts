@@ -10,14 +10,14 @@ export interface VMInfo {
   detectedCount: number;
 }
 
-export type VMInfoOptions = {
+export interface VMInfoOptions {
   preset?: PresetFlags;
   settings?: SettingFlags[];
   techniques?: {
     only?: TechniqueFlags[];
     disable?: TechniqueFlags[];
   };
-};
+}
 
 const nodeVMDetect: {
   info: (options?: VMInfoOptions) => Promise<VMInfo>;
@@ -28,29 +28,14 @@ const nodeVMDetect: {
   percentage: (options?: VMInfoOptions) => Promise<number>;
   detectedCount: (options?: VMInfoOptions) => Promise<number>;
 } = (() => {
-  let napiPath: string | undefined;
-  if (process.platform === 'win32') {
-    if (process.arch === 'x64') {
-      napiPath = './win/x64/detectWindows.node';
-    }
-  } else if (process.platform === 'darwin') {
-    if (process.arch === 'arm64') {
-      napiPath = './mac/arm64/detectMac.node';
-    } else if (process.arch === 'x64') {
-      napiPath = './mac/x64/detectMac.node';
-    }
-  } else if (process.platform === 'linux') {
-    if (process.arch === 'x64') {
-      napiPath = './linux/x64/detectLinux.node';
-    } else if (process.arch === 'arm64') {
-      napiPath = './linux/arm64/detectLinux.node';
-    }
-  }
-  if (!napiPath) {
+  const { platform, arch } = process;
+  if (
+    !['darwin', 'win32', 'linux'].includes(platform) ||
+    !['x64', 'arm64'].includes(arch)
+  ) {
     throw new Error('Unsupported platform');
   }
-
-  return createRequire(import.meta.url)(napiPath);
+  return createRequire(import.meta.url)(`./${platform}/${arch}/vmDetect.node`);
 })();
 
 export default nodeVMDetect;

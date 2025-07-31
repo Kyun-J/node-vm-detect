@@ -25,7 +25,6 @@ export default defineConfig({
     },
     target: 'node18',
     outDir: 'dist',
-    sourcemap: true,
     minify: true,
   },
   plugins: [

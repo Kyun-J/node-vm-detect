@@ -121,7 +121,7 @@ VMAware supports 32-bit environments, but this library only supports 64-bit plat
 | ------- | ----- | --------- |
 | Windows | x64   | ✅         |
 | Windows | x86   | ❌         |
-| Windows | Arm64 | ❌ (TODO)  |
+| Windows | Arm64 | ✅         |
 | Windows | Arm32 | ❌         |
 | MacOS   | x64   | ✅         |
 | MacOS   | Arm64 | ✅         |
@@ -129,9 +129,6 @@ VMAware supports 32-bit environments, but this library only supports 64-bit plat
 | Linux   | x86   | ❌         |
 | Linux   | Arm64 | ✅         |
 | Linux   | Arm32 | ❌         |
-
-# TODO
-There is currently an issue with building for Windows ARM architectures, which is under investigation. 
 
 # LICENSE
 MIT

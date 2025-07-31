@@ -3,6 +3,8 @@
 
 struct VMOptionsParser {
 private:
+    using vmFlagset = std::bitset<VM::MULTIPLE + 1>;
+
     std::map<std::string, VM::enum_flags> presetFlagMap =
     {
         {"ALL", VM::ALL},
@@ -125,9 +127,7 @@ private:
     };
 
 public:
-    using vmFlagset = std::bitset<VM::MULTIPLE + 1>;
-
-    VM::enum_flags core = VM::DEFAULT;
+    VM::enum_flags preset = VM::DEFAULT;
     VM::enum_flags noMemo = VM::DEFAULT;
     VM::enum_flags multiple = VM::DEFAULT;
     VM::enum_flags highThreshold = VM::DEFAULT;
@@ -151,7 +151,7 @@ public:
             auto it = presetFlagMap.find(presetStr);
             if (it != presetFlagMap.end()) {
                 optionExists = true;
-                core = it->second;
+                preset = it->second;
                 noMemo = it->second;
                 multiple = it->second;
                 highThreshold = it->second;
@@ -281,7 +281,7 @@ private:
             }
             case BRAND:
                 brand = VM::brand(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
@@ -291,7 +291,7 @@ private:
                 break;
             case TYPE:
                 type = VM::type(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
@@ -301,7 +301,7 @@ private:
                 break;
             case CONCLUSION:
                 conclusion = VM::conclusion(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
@@ -311,7 +311,7 @@ private:
                 break;
             case IS_VM:
                 isVm = VM::detect(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
@@ -321,7 +321,7 @@ private:
                 break;
             case PERCENTAGE:
                 percentage = VM::percentage(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
@@ -331,7 +331,7 @@ private:
                 break;
             case DETECTED_COUNT:
                 detectedCount = VM::detected_count(
-                    parser.core,
+                    parser.preset,
                     parser.noMemo,
                     parser.multiple,
                     parser.highThreshold,
