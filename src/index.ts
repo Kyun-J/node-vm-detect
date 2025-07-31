@@ -28,29 +28,14 @@ const nodeVMDetect: {
   percentage: (options?: VMInfoOptions) => Promise<number>;
   detectedCount: (options?: VMInfoOptions) => Promise<number>;
 } = (() => {
-  let napiPath: string | undefined;
-  if (process.platform === 'win32') {
-    if (process.arch === 'x64') {
-      napiPath = './win/x64/vmDetect.node';
-    }
-  } else if (process.platform === 'darwin') {
-    if (process.arch === 'arm64') {
-      napiPath = './mac/arm64/vmDetect.node';
-    } else if (process.arch === 'x64') {
-      napiPath = './mac/x64/vmDetect.node';
-    }
-  } else if (process.platform === 'linux') {
-    if (process.arch === 'x64') {
-      napiPath = './linux/x64/vmDetect.node';
-    } else if (process.arch === 'arm64') {
-      napiPath = './linux/arm64/vmDetect.node';
-    }
-  }
-  if (!napiPath) {
+  const { platform, arch } = process;
+  if (
+    !['darwin', 'win32', 'linux'].includes(platform) ||
+    !['x64', 'arm64'].includes(arch)
+  ) {
     throw new Error('Unsupported platform');
   }
-
-  return createRequire(import.meta.url)(napiPath);
+  return createRequire(import.meta.url)(`./${platform}/${arch}/vmDetect.node`);
 })();
 
 export default nodeVMDetect;
