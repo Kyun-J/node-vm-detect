@@ -130,5 +130,9 @@ VMAware supports 32-bit environments, but this library only supports 64-bit plat
 | Linux   | Arm64 | ✅         |
 | Linux   | Arm32 | ❌         |
 
+# TODOS
+* Deno support with Deno FFI
+* Include other VM detection packages
+
 # LICENSE
 MIT

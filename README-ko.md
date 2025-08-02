@@ -128,5 +128,9 @@ VMAware는 32bit를 지원하나, 이 라이브러리는 64bit만 지원합니�
 | Linux   | Arm64 | ✅        |
 | Linux   | Arm32 | ❌        |
 
+# TODOS
+* Deno FFI를 통한 Deno 지원
+* 다른 VM 감지 패키지 include
+
 # LICENSE
 MIT

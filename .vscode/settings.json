@@ -74,5 +74,6 @@
     "tuple": "cpp",
     "atomic": "cpp",
     "__config": "cpp"
-  }
+  },
+  "cmake.ignoreCMakeListsMissing": true
 }
