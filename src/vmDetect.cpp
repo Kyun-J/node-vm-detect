@@ -415,54 +415,20 @@ public:
     }
 };
 
-Napi::Value GetVMInfo(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, VM_INFO);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetBrand(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, BRAND);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetType(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, TYPE);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetConclusion(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, CONCLUSION);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetIsVM(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, IS_VM);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetPercentage(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, PERCENTAGE);
-    worker->Queue();
-    return worker->GetPromise();
-}
-
-Napi::Value GetDetectedCount(const Napi::CallbackInfo& info) {
-    VMDetectWorker* worker = new VMDetectWorker(info, DETECTED_COUNT);
-    worker->Queue();
-    return worker->GetPromise();
+auto GetCallback(VMDetectJob job) {
+    return [job](const Napi::CallbackInfo& info) {
+        VMDetectWorker* worker = new VMDetectWorker(info, job);
+        worker->Queue();
+        return worker->GetPromise();
+    };
 }
 
 void InitGetVMInfo(Napi::Env env, Napi::Object exports) {
-    exports.Set("info", Napi::Function::New(env, GetVMInfo));
-    exports.Set("brand", Napi::Function::New(env, GetBrand));
-    exports.Set("type", Napi::Function::New(env, GetType));
-    exports.Set("conclusion", Napi::Function::New(env, GetConclusion));
-    exports.Set("isVM", Napi::Function::New(env, GetIsVM));
-    exports.Set("percentage", Napi::Function::New(env, GetPercentage));
-    exports.Set("detectedCount", Napi::Function::New(env, GetDetectedCount));
+    exports.Set("info", Napi::Function::New(env, GetCallback(VM_INFO)));
+    exports.Set("brand", Napi::Function::New(env, GetCallback(BRAND)));
+    exports.Set("type", Napi::Function::New(env, GetCallback(TYPE)));
+    exports.Set("conclusion", Napi::Function::New(env, GetCallback(CONCLUSION)));
+    exports.Set("isVM", Napi::Function::New(env, GetCallback(IS_VM)));
+    exports.Set("percentage", Napi::Function::New(env, GetCallback(PERCENTAGE)));
+    exports.Set("detectedCount", Napi::Function::New(env, GetCallback(DETECTED_COUNT)));
 }
