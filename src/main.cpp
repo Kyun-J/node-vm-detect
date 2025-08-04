@@ -1,9 +1,9 @@
 #include <napi.h>
 
-void InitGetVMInfo(Napi::Env env, Napi::Object exports);
+void InitGetVMDetect(Napi::Env env, Napi::Object exports);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    InitGetVMInfo(env, exports);
+    InitGetVMDetect(env, exports);
     return exports;
 }
 

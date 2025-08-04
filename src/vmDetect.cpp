@@ -375,12 +375,12 @@ public:
                 case VM_INFO: {
                     Napi::Object result = Napi::Object::New(env);
 
-                    result.Set("isVM", Napi::Boolean::New(env, isVm));
-                    result.Set("brand", Napi::String::New(env, brand));
-                    result.Set("type", Napi::String::New(env, type));
-                    result.Set("conclusion", Napi::String::New(env, conclusion));
-                    result.Set("percentage", Napi::Number::New(env, percentage));
-                    result.Set("detectedCount", Napi::Number::New(env, detectedCount));
+                    result.Set("isVM", isVm);
+                    result.Set("brand", brand);
+                    result.Set("type", type);
+                    result.Set("conclusion", conclusion);
+                    result.Set("percentage", percentage);
+                    result.Set("detectedCount", detectedCount);
 
                     deferred.Resolve(result);
                     break;
@@ -423,7 +423,7 @@ auto GetCallback(VMDetectJob job) {
     };
 }
 
-void InitGetVMInfo(Napi::Env env, Napi::Object exports) {
+void InitGetVMDetect(Napi::Env env, Napi::Object exports) {
     exports.Set("info", Napi::Function::New(env, GetCallback(VM_INFO)));
     exports.Set("brand", Napi::Function::New(env, GetCallback(BRAND)));
     exports.Set("type", Napi::Function::New(env, GetCallback(TYPE)));
