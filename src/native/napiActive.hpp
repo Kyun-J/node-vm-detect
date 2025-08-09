@@ -1,6 +1,7 @@
 #pragma once
 
 #include <napi.h>
+#include <atomic>
 
 struct NapiActive {
 private:
