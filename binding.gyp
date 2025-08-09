@@ -3,12 +3,11 @@
     {
       "target_name": "vmDetect",
       "sources": [
-        "./VMAware/src/vmaware.hpp",
-        "./src/vmDetect.cpp",
-        "./src/main.cpp"
+        "./src/native/main.cpp"
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
+        "./src/native",
         "./VMAware/src"
       ],
       "dependencies": [
