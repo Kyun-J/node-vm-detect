@@ -6,6 +6,13 @@ export type SettingFlags =
   | 'HIGH_THRESHOLD'
   | 'DYNAMIC';
 
+export type IsVMSettings = ('NO_MEMO' | 'HIGH_THRESHOLD')[];
+export type BrandSettings = ('NO_MEMO' | 'MULTIPLE')[];
+export type TypeSettings = 'NO_MEMO'[];
+export type ConclusionSettings = ('NO_MEMO' | 'DYNAMIC')[];
+export type PercentageSettings = ('NO_MEMO' | 'HIGH_THRESHOLD')[];
+export type DetectedTechniquesSettings = [];
+
 export type TechniqueFlags =
   // Windows
   | 'GPU_CAPABILITIES'

@@ -1,9 +1,11 @@
 #include <napi.h>
+#include "napiActive.hpp"
+#include "vmDetect.hpp"
 
-void InitGetVMDetect(Napi::Env env, Napi::Object exports);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    InitGetVMDetect(env, exports);
+    NapiActive::InitNapiActive(env);
+    VMDetect::InitGetVMDetect(env, exports);
     return exports;
 }
 

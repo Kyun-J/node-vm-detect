@@ -23,18 +23,40 @@ const {
   type,
   conclusion,
   percentage,
-  detectedCount,
+  detectedTechniques,
 } = await getVMInfo();
 ```
+## Return value
+| Value                | Type             | Desciption                              |
+| -------------------- | ---------------- | --------------------------------------- |
+| `isVM`               | boolean          | Whether the current PC is a VM          |
+| `brand`              | string           | VM brand                                |
+| `type`               | string           | VM type                                 |
+| `conclusion`         | string           | Commentary on detection results         |
+| `percentage`         | number           | VM certainty. A value between 0 and 100 |
+| `detectedTechniques` | TechniqueFlags[] | List of detected techniques             |
+
 ## Setting flags
 These correspond to the [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
-`Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
-Other flags can be specified as an array in the `settings` field.
+For a detailed description of each flag, reference VMAware.
+
 ### Setting a preset
+`Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
+| Flag      | Desciption                                                        |
+| --------- | ----------------------------------------------------------------- |
+| `DEFAULT` | Use all techniques except the excluded ones. This is the default. |
+| `ALL`     | Use all techniques, including excluded techniques.                |
 ```
 preset: 'DEFAULT' | 'ALL'
 ```
 ### Additional setting flags
+Additional setting flags can be specified as an array in the `settings` field.
+| Flag             | Desciption                                                                                          |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `NO_MEMO`        | Disable memoization, so that the previous detect results are ignored and detected again.            |
+| `MULTIPE`        | Applies to `brand` only. Displays multiple VM Hosts.                                                |
+| `HIGH_THRESHOLD` | Applies to `isVM` and `percentage` only. Increase the threshold for determining if a VM is present. |
+| `DYNAMIC`        | Applies to `conclusion` only. Display the conclusion message in detail.                             |
 ```
 settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 ```
@@ -97,7 +119,7 @@ import {
   getConclusion,
   getIsVM,
   getPercentage,
-  getDetectedCount,
+  getDetectedTechniques,
 } from 'node-vm-detect';
 ```
 Also available via default import:
@@ -110,7 +132,7 @@ nodeVMDetect.brand();
 nodeVMDetect.type();
 nodeVMDetect.conclusion();
 nodeVMDetect.percentage();
-nodeVMDetect.detectedCount();
+nodeVMDetect.detectedTechniques();
 ```
 
 # Supported Platforms & Requirements
