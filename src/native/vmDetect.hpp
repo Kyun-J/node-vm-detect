@@ -343,6 +343,22 @@ private:
             }
         }
 
+        void Resolve(Napi::Value value) noexcept {
+            try {
+                deferred.Resolve(value);
+            } catch (...) {
+                // Do nothing if resolving fails, maybe process is already shutting down.
+            }
+        }
+
+        void Reject(Napi::Value value) noexcept {
+            try {
+                deferred.Reject(value);
+            } catch (...) {
+                // Do nothing if rejecting fails, maybe process is already shutting down.
+            }
+        }
+
     public:
         VMDetectWorker(const Napi::CallbackInfo& info, VMDetectJob job)
             : Napi::AsyncWorker(info.Env()),
@@ -374,7 +390,7 @@ private:
 
             if (!errorMessage.empty()) {
                 Napi::Error error = Napi::Error::New(env, errorMessage);
-                deferred.Reject(error.Value());
+                Reject(error.Value());
             } else {
                 switch (job) {
                     case VM_INFO: {
@@ -392,23 +408,23 @@ private:
                         }
                         result.Set("detectedTechniques", detectedTechniquesArray);
 
-                        deferred.Resolve(result);
+                        Resolve(result);
                         break;
                     }
                     case BRAND:
-                        deferred.Resolve(Napi::String::New(env, brand));
+                        Resolve(Napi::String::New(env, brand));
                         break;
                     case TYPE:
-                        deferred.Resolve(Napi::String::New(env, type));
+                        Resolve(Napi::String::New(env, type));
                         break;
                     case CONCLUSION:
-                        deferred.Resolve(Napi::String::New(env, conclusion));
+                        Resolve(Napi::String::New(env, conclusion));
                         break;
                     case IS_VM:
-                        deferred.Resolve(Napi::Boolean::New(env, isVm));
+                        Resolve(Napi::Boolean::New(env, isVm));
                         break;
                     case PERCENTAGE:
-                        deferred.Resolve(Napi::Number::New(env, percentage));
+                        Resolve(Napi::Number::New(env, percentage));
                         break;
                     case DETECTED_TECHNIQUES: {
                         Napi::Array result = Napi::Array::New(env);
@@ -416,18 +432,18 @@ private:
                         for (uint8_t i = 0; i < length; ++i) {
                             result.Set(i, detectedTechniques[i]);
                         }
-                        deferred.Resolve(result);
+                        Resolve(result);
                         break;
                     }
                     default:
-                        deferred.Reject(Napi::Error::New(env, "Invalid job").Value());
+                        Reject(Napi::Error::New(env, "Invalid job").Value());
                         break;
                 }
             }
         }
 
         void OnError(const Napi::Error& e) override {
-            deferred.Reject(e.Value());
+            Reject(e.Value());
         }
     };
 
