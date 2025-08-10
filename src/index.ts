@@ -17,7 +17,6 @@ export interface VMInfo {
   type: string;
   conclusion: string;
   percentage: number;
-  detectedCount: number;
   detectedTechniques: TechniqueFlags[];
 }
 
