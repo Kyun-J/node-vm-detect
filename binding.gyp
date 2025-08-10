@@ -12,7 +12,7 @@
       "dependencies": [
         "<!(node -p \"require('node-addon-api').gyp\")"
       ],
-      "defines": [ 'NAPI_CPP_EXCEPTIONS' ],
+      "defines": [ 'NAPI_CPP_EXCEPTIONS', 'NDEBUG' ],
       "conditions": [
         ["OS=='win'", {
           "libraries": [
@@ -20,7 +20,12 @@
             "shlwapi.lib",
             "powrprof.lib",
             "tbs.lib"
-          ]
+          ],
+          "msvs_settings": {
+            "VCCLCompilerTool": {
+              "RuntimeLibrary": 0
+            }
+          }
         }],
         ["OS=='mac'", {
           "xcode_settings": {
