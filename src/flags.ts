@@ -102,7 +102,7 @@ export type TechniqueFlags =
   | 'MAC_SIP'
   | 'IOREG_GREP'
   | 'HWMODEL'
-  | 'MAC_UTM'
+  | 'MAC_SYS'
 
   // cross-platform
   | 'HYPERVISOR_BIT'

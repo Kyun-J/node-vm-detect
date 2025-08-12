@@ -113,7 +113,7 @@ private:
             {"MAC_SIP", VM::MAC_SIP},
             {"IOREG_GREP", VM::IOREG_GREP},
             {"HWMODEL", VM::HWMODEL},
-            {"MAC_UTM", VM::MAC_UTM},
+            {"MAC_SYS", VM::MAC_SYS},
 
             // cross-platform
             {"HYPERVISOR_BIT", VM::HYPERVISOR_BIT},

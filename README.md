@@ -42,24 +42,28 @@ For a detailed description of each flag, reference VMAware.
 
 ### Setting a preset
 `Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
+```
+preset: 'DEFAULT' | 'ALL'
+```
+
 | Flag      | Desciption                                                        |
 | --------- | ----------------------------------------------------------------- |
 | `DEFAULT` | Use all techniques except the excluded ones. This is the default. |
 | `ALL`     | Use all techniques, including excluded techniques.                |
-```
-preset: 'DEFAULT' | 'ALL'
-```
+
 ### Additional setting flags
 Additional setting flags can be specified as an array in the `settings` field.
+```
+settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
+```
+
 | Flag             | Desciption                                                                                          |
 | ---------------- | --------------------------------------------------------------------------------------------------- |
 | `NO_MEMO`        | Disable memoization, so that the previous detect results are ignored and detected again.            |
 | `MULTIPE`        | Applies to `brand` only. Displays multiple VM Hosts.                                                |
 | `HIGH_THRESHOLD` | Applies to `isVM` and `percentage` only. Increase the threshold for determining if a VM is present. |
 | `DYNAMIC`        | Applies to `conclusion` only. Display the conclusion message in detail.                             |
-```
-settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
-```
+
 
 ## Technique flags
 These correspond to VMAware’s [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table).  

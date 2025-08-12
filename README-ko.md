@@ -40,24 +40,27 @@ VMAware의 [setting flags](https://github.com/kernelwernel/VMAware/wiki/Document
 
 ### 기본 preset 지정
 `DEFAULT`, `ALL` 중 하나만 선택해서 `preset` 으로 지정합니다.  
+```
+preset: 'DEFAULT' | 'ALL'
+```
+
 | Flag      | Desciption                                                |
 | --------- | --------------------------------------------------------- |
 | `DEFAULT` | 제외된 technique 외 모든 기술을 사용합니다. 기본값입니다. |
 | `ALL`     | 제외된 technique을 포함하여 모든 기술을 사용합니다.       |
-```
-preset: 'DEFAULT' | 'ALL'
-```
+
 ### 그외 setting flags 지정
 그외 setting flags는 `settings`에 배열 형태로 지정합니다.
+```
+settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
+```
+
 | Flag             | Desciption                                                               |
 | ---------------- | ------------------------------------------------------------------------ |
 | `NO_MEMO`        | 메모이제이션을 비활성화 하여, 이전 검사 결과를 무시하고 다시 검사합니다. |
 | `MULTIPE`        | `brand`에만 적용됩니다. 복수개의 VM Host를 표시합니다.                   |
 | `HIGH_THRESHOLD` | `isVM`과 `percentage`에만 적용됩니다. VM여부 판별의 임계값을 높입니다.   |
 | `DYNAMIC`        | `conclusion`에만 적용됩니다. conclusion 메시지를 상세히 표시합니다.      |
-```
-settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
-```
 
 ## Technique flags
 VMAware의 [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
