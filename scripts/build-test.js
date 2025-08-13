@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import fs from 'fs';
 
 execSync('npm run bundle');
 execSync('npm run gyp');
@@ -9,4 +10,6 @@ const test = async () => {
   console.log('VM Info:', vmInfo);
 };
 
-test();
+test().finally(() => {
+  fs.rmSync('dist', { recursive: true });
+});

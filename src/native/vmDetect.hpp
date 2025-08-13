@@ -359,17 +359,6 @@ private:
             }
         }
 
-    public:
-        VMDetectWorker(const Napi::CallbackInfo& info, VMDetectJob job)
-            : Napi::AsyncWorker(info.Env()),
-            job(job),
-            deferred(Napi::Promise::Deferred::New(info.Env())),
-            parser(info) {}
-
-        Napi::Promise GetPromise() {
-            return deferred.Promise();
-        }
-
         void Execute() override {
             try {
                 doJob(job);
@@ -444,6 +433,17 @@ private:
 
         void OnError(const Napi::Error& e) override {
             Reject(e.Value());
+        }
+
+    public:
+        VMDetectWorker(const Napi::CallbackInfo& info, VMDetectJob job)
+            : Napi::AsyncWorker(info.Env()),
+            job(job),
+            deferred(Napi::Promise::Deferred::New(info.Env())),
+            parser(info) {}
+
+        Napi::Promise GetPromise() {
+            return deferred.Promise();
         }
     };
 

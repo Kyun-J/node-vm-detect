@@ -22,7 +22,6 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/node_modules/node-addon-api/**",
-                "~/.nvm/versions/node/**/include/node",
                 "${workspaceFolder}/VMAware/src/**",
                 "${workspaceFolder}/src/**"
             ],
