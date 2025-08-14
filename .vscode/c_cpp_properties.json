@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "${env:USERPROFILE}/AppData/Local/node-gyp/Cache/**/include/node",
                 "${workspaceFolder}/node_modules/node-addon-api/**",
                 "${workspaceFolder}/VMAware/src/**",
                 "${workspaceFolder}/src/**"
@@ -21,6 +22,7 @@
         {
             "name": "Mac",
             "includePath": [
+                "~/.nvm/versions/node/**/include/node",
                 "${workspaceFolder}/node_modules/node-addon-api/**",
                 "${workspaceFolder}/VMAware/src/**",
                 "${workspaceFolder}/src/**"
