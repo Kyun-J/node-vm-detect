@@ -1,6 +1,6 @@
 {
   "name": "node-vm-detect",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "VM Detection Library for Nodejs & Electron",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -42,7 +42,7 @@
   "homepage": "https://github.com/Kyun-J/node-vm-detect#readme",
   "devDependencies": {
     "@eslint/js": "^9.31.0",
-    "@types/node": "^18.19.122",
+    "@types/node": "^18.19.123",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -51,7 +51,7 @@
     "node-gyp": "^11.3.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.0",
+    "typescript-eslint": "^8.39.1",
     "vite": "^6.3.5",
     "vite-plugin-dts": "^4.5.4"
   }

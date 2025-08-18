@@ -172,21 +172,33 @@ private:
                         auto flagStr = flagValue.As<Napi::String>();
                         auto it = settingFlagMap.find(flagStr);
                         if (it->first == "NO_MEMO") {
+                            if (noMemo == it->second) {
+                                continue;
+                            }
                             optionExists = true;
                             noMemo = it->second;
                             multiple = it->second;
                             highThreshold = it->second;
                             dynamic = it->second;
                         } else if (it->first == "MULTIPLE") {
+                            if (multiple == it->second) {
+                                continue;
+                            }
                             optionExists = true;
                             multiple = it->second;
                             highThreshold = it->second;
                             dynamic = it->second;
                         } else if (it->first == "HIGH_THRESHOLD") {
+                            if (highThreshold == it->second) {
+                                continue;
+                            }
                             optionExists = true;
                             highThreshold = it->second;
                             dynamic = it->second;
                         } else if (it->first == "DYNAMIC") {
+                            if (dynamic == it->second) {
+                                continue;
+                            }
                             optionExists = true;
                             dynamic = it->second;
                         }
@@ -456,7 +468,7 @@ private:
     }
 
 public:
-    static void InitGetVMDetect(Napi::Env env, Napi::Object exports) {
+    static void InitVMDetect(Napi::Env env, Napi::Object exports) {
         exports.Set("info", Napi::Function::New(env, GetCallback(VM_INFO)));
         exports.Set("brand", Napi::Function::New(env, GetCallback(BRAND)));
         exports.Set("type", Napi::Function::New(env, GetCallback(TYPE)));

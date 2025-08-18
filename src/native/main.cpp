@@ -5,7 +5,7 @@
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     NapiActive::InitNapiActive(env);
-    VMDetect::InitGetVMDetect(env, exports);
+    VMDetect::InitVMDetect(env, exports);
     return exports;
 }
 
