@@ -58,9 +58,9 @@ settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 | Flag             | Desciption                                                               |
 | ---------------- | ------------------------------------------------------------------------ |
 | `NO_MEMO`        | 메모이제이션을 비활성화 하여, 이전 검사 결과를 무시하고 다시 검사합니다. |
-| `MULTIPE`        | `brand`에만 적용됩니다. 복수개의 VM Host를 표시합니다.                   |
-| `HIGH_THRESHOLD` | `isVM`과 `percentage`에만 적용됩니다. VM여부 판별의 임계값을 높입니다.   |
-| `DYNAMIC`        | `conclusion`에만 적용됩니다. conclusion 메시지를 상세히 표시합니다.      |
+| `MULTIPE`        | 복수개의 VM Host를 표시합니다.                                           |
+| `HIGH_THRESHOLD` | VM여부 판별의 임계값을 높입니다.                                         |
+| `DYNAMIC`        | conclusion 메시지를 상세히 표시합니다.                                   |
 
 ## Technique flags
 VMAware의 [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
@@ -109,31 +109,6 @@ getVMInfo({
     disable: ['VMID'],
   },
 });
-```
-
-## 기타
-각 요소만 얻는 함수들.
-```js
-import {
-  getBrands,
-  getType,
-  getConclusion,
-  getIsVM,
-  getPercentage,
-  getDetectedTechniques,
-} from 'node-vm-detect';
-```
-default import로도 사용할 수 있습니다.
-```js
-import nodeVMDetect from 'node-vm-detect';
-
-nodeVMDetect.info();
-nodeVMDetect.isVM();
-nodeVMDetect.brand();
-nodeVMDetect.type();
-nodeVMDetect.conclusion();
-nodeVMDetect.percentage();
-nodeVMDetect.detectedTechniques();
 ```
 
 # 동작 플랫폼 & 요구사항

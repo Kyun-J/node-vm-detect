@@ -57,12 +57,12 @@ Additional setting flags can be specified as an array in the `settings` field.
 settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 ```
 
-| Flag             | Desciption                                                                                          |
-| ---------------- | --------------------------------------------------------------------------------------------------- |
-| `NO_MEMO`        | Disable memoization, so that the previous detect results are ignored and detected again.            |
-| `MULTIPE`        | Applies to `brand` only. Displays multiple VM Hosts.                                                |
-| `HIGH_THRESHOLD` | Applies to `isVM` and `percentage` only. Increase the threshold for determining if a VM is present. |
-| `DYNAMIC`        | Applies to `conclusion` only. Display the conclusion message in detail.                             |
+| Flag             | Desciption                                                                               |
+| ---------------- | ---------------------------------------------------------------------------------------- |
+| `NO_MEMO`        | Disable memoization, so that the previous detect results are ignored and detected again. |
+| `MULTIPE`        | Displays multiple VM Hosts.                                                              |
+| `HIGH_THRESHOLD` | Increase the threshold for determining if a VM is present.                               |
+| `DYNAMIC`        | Display the conclusion message in detail.                                                |
 
 
 ## Technique flags
@@ -112,31 +112,6 @@ getVMInfo({
     disable: ['VMID'],
   },
 });
-```
-
-## Utilities
-Functions to retrieve individual values:
-```js
-import {
-  getBrands,
-  getType,
-  getConclusion,
-  getIsVM,
-  getPercentage,
-  getDetectedTechniques,
-} from 'node-vm-detect';
-```
-Also available via default import:
-```js
-import nodeVMDetect from 'node-vm-detect';
-
-nodeVMDetect.info();
-nodeVMDetect.isVM();
-nodeVMDetect.brand();
-nodeVMDetect.type();
-nodeVMDetect.conclusion();
-nodeVMDetect.percentage();
-nodeVMDetect.detectedTechniques();
 ```
 
 # Supported Platforms & Requirements
