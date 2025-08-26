@@ -17,7 +17,6 @@ private:
 
         std::map<std::string, VM::enum_flags> settingFlagMap =
         {
-            {"NO_MEMO", VM::NO_MEMO},
             {"MULTIPLE", VM::MULTIPLE},
             {"HIGH_THRESHOLD", VM::HIGH_THRESHOLD},
             {"DYNAMIC", VM::DYNAMIC},
@@ -132,7 +131,6 @@ private:
 
     public:
         VM::enum_flags preset = VM::DEFAULT;
-        VM::enum_flags noMemo = VM::DEFAULT;
         VM::enum_flags multiple = VM::DEFAULT;
         VM::enum_flags highThreshold = VM::DEFAULT;
         VM::enum_flags dynamic = VM::DEFAULT;
@@ -156,7 +154,6 @@ private:
                 if (it != presetFlagMap.end()) {
                     optionExists = true;
                     preset = it->second;
-                    noMemo = it->second;
                     multiple = it->second;
                     highThreshold = it->second;
                     dynamic = it->second;
@@ -168,19 +165,13 @@ private:
                 auto length = settingsArray.Length();
                 for (uint8_t i = 0; i < length; i++) {
                     Napi::Value flagValue = settingsArray[i];
-                    if (flagValue.IsString()) {
-                        auto flagStr = flagValue.As<Napi::String>();
-                        auto it = settingFlagMap.find(flagStr);
-                        if (it->first == "NO_MEMO") {
-                            if (noMemo == it->second) {
-                                continue;
-                            }
-                            optionExists = true;
-                            noMemo = it->second;
-                            multiple = it->second;
-                            highThreshold = it->second;
-                            dynamic = it->second;
-                        } else if (it->first == "MULTIPLE") {
+                    if (!flagValue.IsString()) {
+                        continue;
+                    }
+                    auto flagStr = flagValue.As<Napi::String>();
+                    auto it = settingFlagMap.find(flagStr);
+                    switch (it->second) {
+                        case VM::MULTIPLE:
                             if (multiple == it->second) {
                                 continue;
                             }
@@ -188,20 +179,24 @@ private:
                             multiple = it->second;
                             highThreshold = it->second;
                             dynamic = it->second;
-                        } else if (it->first == "HIGH_THRESHOLD") {
+                            break;
+                        case VM::HIGH_THRESHOLD:
                             if (highThreshold == it->second) {
                                 continue;
                             }
                             optionExists = true;
                             highThreshold = it->second;
                             dynamic = it->second;
-                        } else if (it->first == "DYNAMIC") {
+                            break;
+                        case VM::DYNAMIC:
                             if (dynamic == it->second) {
                                 continue;
                             }
                             optionExists = true;
                             dynamic = it->second;
-                        }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -261,8 +256,6 @@ private:
 
     class VMDetectWorker : public Napi::AsyncWorker {
     private:
-        VMDetectJob job;
-
         std::string brand;
         std::string type;
         std::string conclusion;
@@ -297,7 +290,6 @@ private:
                 case BRAND:
                     brand = VM::brand(
                         parser.preset,
-                        parser.noMemo,
                         parser.multiple,
                         parser.highThreshold,
                         parser.dynamic,
@@ -307,7 +299,6 @@ private:
                 case TYPE:
                     type = VM::type(
                         parser.preset,
-                        parser.noMemo,
                         parser.multiple,
                         parser.highThreshold,
                         parser.dynamic,
@@ -317,7 +308,6 @@ private:
                 case CONCLUSION:
                     conclusion = VM::conclusion(
                         parser.preset,
-                        parser.noMemo,
                         parser.multiple,
                         parser.highThreshold,
                         parser.dynamic,
@@ -327,7 +317,6 @@ private:
                 case IS_VM:
                     isVm = VM::detect(
                         parser.preset,
-                        parser.noMemo,
                         parser.multiple,
                         parser.highThreshold,
                         parser.dynamic,
@@ -337,7 +326,6 @@ private:
                 case PERCENTAGE:
                     percentage = VM::percentage(
                         parser.preset,
-                        parser.noMemo,
                         parser.multiple,
                         parser.highThreshold,
                         parser.dynamic,
@@ -373,7 +361,7 @@ private:
 
         void Execute() override {
             try {
-                doJob(job);
+                doJob(VM_INFO);
             } catch (const std::exception& e) {
                 errorMessage = e.what();
             } catch (...) {
@@ -393,53 +381,21 @@ private:
                 Napi::Error error = Napi::Error::New(env, errorMessage);
                 Reject(error.Value());
             } else {
-                switch (job) {
-                    case VM_INFO: {
-                        Napi::Object result = Napi::Object::New(env);
+                Napi::Object result = Napi::Object::New(env);
 
-                        result.Set("isVM", isVm);
-                        result.Set("brand", brand);
-                        result.Set("type", type);
-                        result.Set("conclusion", conclusion);
-                        result.Set("percentage", percentage);
+                result.Set("isVM", isVm);
+                result.Set("brand", brand);
+                result.Set("type", type);
+                result.Set("conclusion", conclusion);
+                result.Set("percentage", percentage);
 
-                        Napi::Array detectedTechniquesArray = Napi::Array::New(env);
-                        for (size_t i = 0; i < detectedTechniques.size(); ++i) {
-                            detectedTechniquesArray.Set(i, detectedTechniques[i]);
-                        }
-                        result.Set("detectedTechniques", detectedTechniquesArray);
-
-                        Resolve(result);
-                        break;
-                    }
-                    case BRAND:
-                        Resolve(Napi::String::New(env, brand));
-                        break;
-                    case TYPE:
-                        Resolve(Napi::String::New(env, type));
-                        break;
-                    case CONCLUSION:
-                        Resolve(Napi::String::New(env, conclusion));
-                        break;
-                    case IS_VM:
-                        Resolve(Napi::Boolean::New(env, isVm));
-                        break;
-                    case PERCENTAGE:
-                        Resolve(Napi::Number::New(env, percentage));
-                        break;
-                    case DETECTED_TECHNIQUES: {
-                        Napi::Array result = Napi::Array::New(env);
-                        auto length = detectedTechniques.size();
-                        for (uint8_t i = 0; i < length; ++i) {
-                            result.Set(i, detectedTechniques[i]);
-                        }
-                        Resolve(result);
-                        break;
-                    }
-                    default:
-                        Reject(Napi::Error::New(env, "Invalid job").Value());
-                        break;
+                Napi::Array detectedTechniquesArray = Napi::Array::New(env);
+                for (size_t i = 0; i < detectedTechniques.size(); ++i) {
+                    detectedTechniquesArray.Set(i, detectedTechniques[i]);
                 }
+                result.Set("detectedTechniques", detectedTechniquesArray);
+
+                Resolve(result);
             }
         }
 
@@ -448,9 +404,8 @@ private:
         }
 
     public:
-        VMDetectWorker(const Napi::CallbackInfo& info, VMDetectJob job)
+        VMDetectWorker(const Napi::CallbackInfo& info)
             : Napi::AsyncWorker(info.Env()),
-            job(job),
             deferred(Napi::Promise::Deferred::New(info.Env())),
             parser(info) {}
 
@@ -459,9 +414,9 @@ private:
         }
     };
 
-    static auto GetCallback(VMDetectJob job) {
-        return [job](const Napi::CallbackInfo& info) {
-            VMDetectWorker* worker = new VMDetectWorker(info, job);
+    static auto GetCallback() {
+        return [](const Napi::CallbackInfo& info) {
+            VMDetectWorker* worker = new VMDetectWorker(info);
             worker->Queue();
             return worker->GetPromise();
         };
@@ -469,13 +424,7 @@ private:
 
 public:
     static void InitVMDetect(Napi::Env env, Napi::Object exports) {
-        exports.Set("info", Napi::Function::New(env, GetCallback(VM_INFO)));
-        exports.Set("brand", Napi::Function::New(env, GetCallback(BRAND)));
-        exports.Set("type", Napi::Function::New(env, GetCallback(TYPE)));
-        exports.Set("conclusion", Napi::Function::New(env, GetCallback(CONCLUSION)));
-        exports.Set("isVM", Napi::Function::New(env, GetCallback(IS_VM)));
-        exports.Set("percentage", Napi::Function::New(env, GetCallback(PERCENTAGE)));
-        exports.Set("detectedTechniques", Napi::Function::New(env, GetCallback(DETECTED_TECHNIQUES)));
+        exports.Set("info", Napi::Function::New(env, GetCallback()));
     }
 
 };
