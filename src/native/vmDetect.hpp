@@ -5,24 +5,24 @@
 struct VMDetect {
 private:
 
-    struct VMOptionsParser {
+    struct VMDetector {
     private:
         using vmFlagset = std::bitset<VM::MULTIPLE + 1>;
 
-        std::map<std::string, VM::enum_flags> presetFlagMap =
+        const std::map<std::string, VM::enum_flags> presetFlagMap =
         {
             {"ALL", VM::ALL},
             {"DEFAULT", VM::DEFAULT},
         };
 
-        std::map<std::string, VM::enum_flags> settingFlagMap =
+        const std::map<std::string, VM::enum_flags> settingFlagMap =
         {
             {"MULTIPLE", VM::MULTIPLE},
             {"HIGH_THRESHOLD", VM::HIGH_THRESHOLD},
             {"DYNAMIC", VM::DYNAMIC},
         };
 
-        std::map<std::string, VM::enum_flags> techniqueFlagMap =
+        const std::map<std::string, VM::enum_flags> techniqueFlagMap =
         {
             // Windows
             {"GPU_CAPABILITIES", VM::GPU_CAPABILITIES},
@@ -129,16 +129,48 @@ private:
             {"KGT_SIGNATURE", VM::KGT_SIGNATURE},
         };
 
-    public:
         VM::enum_flags preset = VM::DEFAULT;
         VM::enum_flags multiple = VM::DEFAULT;
         VM::enum_flags highThreshold = VM::DEFAULT;
         VM::enum_flags dynamic = VM::DEFAULT;
         vmFlagset techniqueFlags;
 
-        bool optionExists = false;
+        template <typename VMFunc>
+        decltype(auto) runFunc(VMFunc func) {
+            return std::invoke(
+                std::forward<VMFunc>(func),
+                preset,
+                multiple,
+                highThreshold,
+                dynamic,
+                techniqueFlags
+            );
+        }
 
-        VMOptionsParser(const Napi::CallbackInfo& info) {
+    public:
+        struct VMInfo {
+            std::string brand;
+            std::string type;
+            std::string conclusion;
+            bool isVm;
+            uint8_t percentage;
+            std::vector<std::string> detectedTechniques;
+
+            VMInfo(VMDetector& detector) {
+                brand = detector.runFunc([](auto... args) { return VM::brand(args...); });
+                type = detector.runFunc([](auto... args) { return VM::type(args...); });
+                conclusion = detector.runFunc([](auto... args) { return VM::conclusion(args...); });
+                isVm = detector.runFunc([](auto... args) { return VM::detect(args...); });
+                percentage = detector.runFunc([](auto... args) { return VM::percentage(args...); });
+                auto detectedFlags = detector.runFunc([](auto... args) { return VM::detected_enums(args...); });
+                detectedTechniques.reserve(detectedFlags.size());
+                for (const auto flag : detectedFlags) {
+                    detectedTechniques.push_back(VM::flag_to_string(flag));
+                }
+            }
+        };
+
+        VMDetector(const Napi::CallbackInfo& info) {
             techniqueFlags.set();
 
             Napi::Object options;
@@ -152,7 +184,6 @@ private:
                 auto presetStr = options.Get("preset").As<Napi::String>();
                 auto it = presetFlagMap.find(presetStr);
                 if (it != presetFlagMap.end()) {
-                    optionExists = true;
                     preset = it->second;
                     multiple = it->second;
                     highThreshold = it->second;
@@ -175,7 +206,6 @@ private:
                             if (multiple == it->second) {
                                 continue;
                             }
-                            optionExists = true;
                             multiple = it->second;
                             highThreshold = it->second;
                             dynamic = it->second;
@@ -184,7 +214,6 @@ private:
                             if (highThreshold == it->second) {
                                 continue;
                             }
-                            optionExists = true;
                             highThreshold = it->second;
                             dynamic = it->second;
                             break;
@@ -192,7 +221,6 @@ private:
                             if (dynamic == it->second) {
                                 continue;
                             }
-                            optionExists = true;
                             dynamic = it->second;
                             break;
                         default:
@@ -214,7 +242,6 @@ private:
                             auto flagStr = flagValue.As<Napi::String>();
                             auto it = techniqueFlagMap.find(flagStr);
                             if (it != techniqueFlagMap.end()) {
-                                optionExists = true;
                                 if (!reset) {
                                     techniqueFlags.reset();
                                     reset = true;
@@ -234,7 +261,6 @@ private:
                             auto flagStr = flagValue.As<Napi::String>();
                             auto it = techniqueFlagMap.find(flagStr);
                             if (it != techniqueFlagMap.end()) {
-                                optionExists = true;
                                 techniqueFlags.set(it->second, false);
                             }
                         }
@@ -242,106 +268,18 @@ private:
                 }
             }
         }
-    };
 
-    enum VMDetectJob {
-        VM_INFO,
-        BRAND,
-        TYPE,
-        CONCLUSION,
-        IS_VM,
-        PERCENTAGE,
-        DETECTED_TECHNIQUES,
+        auto generateInfo() {
+            return VMInfo(*this);
+        }
     };
 
     class VMDetectWorker : public Napi::AsyncWorker {
     private:
-        std::string brand;
-        std::string type;
-        std::string conclusion;
-        bool isVm;
-        uint8_t percentage;
-        std::vector<std::string> detectedTechniques;
-
         std::string errorMessage;
         Napi::Promise::Deferred deferred;
-        VMOptionsParser parser;
-
-        void doJob(VMDetectJob todo) {
-            switch (todo) {
-                case VM_INFO: {
-                    if (parser.optionExists) {
-                        doJob(BRAND);
-                        doJob(TYPE);
-                        doJob(CONCLUSION);
-                        doJob(IS_VM);
-                        doJob(PERCENTAGE);
-                    } else {
-                        VM::vmaware vm;
-                        brand = vm.brand;
-                        type = vm.type;
-                        conclusion = vm.conclusion;
-                        isVm = vm.is_vm;
-                        percentage = vm.percentage;
-                    }
-                    doJob(DETECTED_TECHNIQUES);
-                    break;
-                }
-                case BRAND:
-                    brand = VM::brand(
-                        parser.preset,
-                        parser.multiple,
-                        parser.highThreshold,
-                        parser.dynamic,
-                        parser.techniqueFlags
-                    );
-                    break;
-                case TYPE:
-                    type = VM::type(
-                        parser.preset,
-                        parser.multiple,
-                        parser.highThreshold,
-                        parser.dynamic,
-                        parser.techniqueFlags
-                    );
-                    break;
-                case CONCLUSION:
-                    conclusion = VM::conclusion(
-                        parser.preset,
-                        parser.multiple,
-                        parser.highThreshold,
-                        parser.dynamic,
-                        parser.techniqueFlags
-                    );
-                    break;
-                case IS_VM:
-                    isVm = VM::detect(
-                        parser.preset,
-                        parser.multiple,
-                        parser.highThreshold,
-                        parser.dynamic,
-                        parser.techniqueFlags
-                    );
-                    break;
-                case PERCENTAGE:
-                    percentage = VM::percentage(
-                        parser.preset,
-                        parser.multiple,
-                        parser.highThreshold,
-                        parser.dynamic,
-                        parser.techniqueFlags
-                    );
-                    break;
-                case DETECTED_TECHNIQUES: {
-                    detectedTechniques.clear();
-                    auto detectedFlags = VM::detected_enums(parser.techniqueFlags);
-                    for (const auto flag : detectedFlags) {
-                        detectedTechniques.push_back(VM::flag_to_string(flag));
-                    }
-                    break;
-                }
-            }
-        }
+        VMDetector detector;
+        std::optional<VMDetector::VMInfo> info;
 
         void Resolve(Napi::Value value) noexcept {
             try {
@@ -361,7 +299,7 @@ private:
 
         void Execute() override {
             try {
-                doJob(VM_INFO);
+                info = detector.generateInfo();
             } catch (const std::exception& e) {
                 errorMessage = e.what();
             } catch (...) {
@@ -380,18 +318,22 @@ private:
             if (!errorMessage.empty()) {
                 Napi::Error error = Napi::Error::New(env, errorMessage);
                 Reject(error.Value());
+            } else if (!info.has_value()) {
+                Napi::Error error = Napi::Error::New(env, "No info available");
+                Reject(error.Value());
             } else {
                 Napi::Object result = Napi::Object::New(env);
 
-                result.Set("isVM", isVm);
-                result.Set("brand", brand);
-                result.Set("type", type);
-                result.Set("conclusion", conclusion);
-                result.Set("percentage", percentage);
+                result.Set("isVM", info->isVm);
+                result.Set("brand", info->brand);
+                result.Set("type", info->type);
+                result.Set("conclusion", info->conclusion);
+                result.Set("percentage", info->percentage);
 
                 Napi::Array detectedTechniquesArray = Napi::Array::New(env);
-                for (size_t i = 0; i < detectedTechniques.size(); ++i) {
-                    detectedTechniquesArray.Set(i, detectedTechniques[i]);
+                auto length = info->detectedTechniques.size();
+                for (uint8_t i = 0; i < length; i++) {
+                    detectedTechniquesArray.Set(i, info->detectedTechniques[i]);
                 }
                 result.Set("detectedTechniques", detectedTechniquesArray);
 
@@ -407,7 +349,7 @@ private:
         VMDetectWorker(const Napi::CallbackInfo& info)
             : Napi::AsyncWorker(info.Env()),
             deferred(Napi::Promise::Deferred::New(info.Env())),
-            parser(info) {}
+            detector(info) {}
 
         Napi::Promise GetPromise() {
             return deferred.Promise();
