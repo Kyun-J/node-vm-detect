@@ -193,7 +193,7 @@ private:
 
             if (options.Get("settings").IsArray()) {
                 auto settingsArray = options.Get("settings").As<Napi::Array>();
-                auto length = settingsArray.Length();
+                uint8_t length = settingsArray.Length();
                 for (uint8_t i = 0; i < length; i++) {
                     Napi::Value flagValue = settingsArray[i];
                     if (!flagValue.IsString()) {
@@ -234,7 +234,7 @@ private:
 
                 if (techniquesObject.Get("only").IsArray()) {
                     auto onlyArray = techniquesObject.Get("only").As<Napi::Array>();
-                    auto length = onlyArray.Length();
+                    uint8_t length = onlyArray.Length();
                     bool reset = false;
                     for (uint8_t i = 0; i < length; i++) {
                         Napi::Value flagValue = onlyArray[i];
@@ -254,7 +254,7 @@ private:
 
                 if (techniquesObject.Get("disable").IsArray()) {
                     auto disableArray = techniquesObject.Get("disable").As<Napi::Array>();
-                    auto length = disableArray.Length();
+                    uint8_t length = disableArray.Length();
                     for (uint8_t i = 0; i < length; i++) {
                         Napi::Value flagValue = disableArray[i];
                         if (flagValue.IsString()) {
@@ -331,7 +331,7 @@ private:
                 result.Set("percentage", info->percentage);
 
                 Napi::Array detectedTechniquesArray = Napi::Array::New(env);
-                auto length = info->detectedTechniques.size();
+                uint8_t length = info->detectedTechniques.size();
                 for (uint8_t i = 0; i < length; i++) {
                     detectedTechniquesArray.Set(i, info->detectedTechniques[i]);
                 }

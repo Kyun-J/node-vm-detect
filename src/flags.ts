@@ -1,10 +1,6 @@
 export type PresetFlags = 'ALL' | 'DEFAULT';
 
-export type SettingFlags =
-  | 'NO_MEMO'
-  | 'MULTIPLE'
-  | 'HIGH_THRESHOLD'
-  | 'DYNAMIC';
+export type SettingFlags = 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC';
 
 export type TechniqueFlags =
   // Windows

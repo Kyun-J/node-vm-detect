@@ -2,16 +2,17 @@ import { getNodeVMDetect } from './nodeVMDetect';
 import type { VMInfoOptions, VMInfo } from './nodeVMDetect';
 import { runOnChildProcess } from './runOnChildProcess';
 
-export type { VMInfoOptions, VMInfo };
-export type * from './flags';
+export interface GetVMInfoOptions extends VMInfoOptions {
+  clean?: boolean;
+}
 
-export const getVMInfo = (
-  options?: VMInfoOptions,
-  clean?: boolean,
-): Promise<VMInfo> => {
-  if (clean) {
-    return runOnChildProcess(options);
-  } else {
+export const getVMInfo = (options?: GetVMInfoOptions): Promise<VMInfo> => {
+  if (options?.clean === false) {
     return getNodeVMDetect().info(options);
+  } else {
+    return runOnChildProcess(options);
   }
 };
+
+export type { VMInfo };
+export type * from './flags';

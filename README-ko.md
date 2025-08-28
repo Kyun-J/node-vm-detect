@@ -10,7 +10,6 @@ npm i node-vm-detect
 ```
 
 # 사용
-## 기본
 아무런 option 없이 호출합니다. 대부분의 경우엔 이것만으로 충분합니다.
 ```js
 import { getVMInfo } from 'node-vm-detect';
@@ -52,15 +51,14 @@ preset: 'DEFAULT' | 'ALL'
 ### 그외 setting flags 지정
 그외 setting flags는 `settings`에 배열 형태로 지정합니다.
 ```
-settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
+settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 ```
 
-| Flag             | Desciption                                                               |
-| ---------------- | ------------------------------------------------------------------------ |
-| `NO_MEMO`        | 메모이제이션을 비활성화 하여, 이전 검사 결과를 무시하고 다시 검사합니다. |
-| `MULTIPE`        | 복수개의 VM Host를 표시합니다.                                           |
-| `HIGH_THRESHOLD` | VM여부 판별의 임계값을 높입니다.                                         |
-| `DYNAMIC`        | conclusion 메시지를 상세히 표시합니다.                                   |
+| Flag             | Desciption                             |
+| ---------------- | -------------------------------------- |
+| `MULTIPE`        | 복수개의 VM Host를 표시합니다.         |
+| `HIGH_THRESHOLD` | VM여부 판별의 임계값을 높입니다.       |
+| `DYNAMIC`        | conclusion 메시지를 상세히 표시합니다. |
 
 ## Technique flags
 VMAware의 [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
@@ -79,10 +77,10 @@ getVMInfo({
   preset: 'ALL',
 });
 ```
-### 2. 메모이제이션을 사용하지 않고 감지 임계값을 높임
+### 2. 감지 임계값을 높이고 conclusion 메시지 상세히 표시.
 ```js
 getVMInfo({
-  settings: ['NO_MEMO', 'HIGH_THRESHOLD'],
+  settings: ['HIGH_THRESHOLD', 'DYNAMIC'],
 });
 ```
 ### 3. VMID technique을 사용하지 않음
@@ -109,6 +107,16 @@ getVMInfo({
     disable: ['VMID'],
   },
 });
+```
+
+## Clean
+child process에서 VM감지를 진행합니다.  
+감지 이후에 child process는 제거됩니다.
+기존 결과에 영향없이 새로 감지를 하거나, 메모리 사용을 줄이려는 경우에 유용합니다.  
+`false`로 호출시 현재 프로세스에서 동작하며, 감지 결과는 메모리에 저장되고 `false`로 호출할때 마다 재활용됩니다.
+기본값은 `true`입니다.
+```js
+getVMInfo({ clean: true });
 ```
 
 # 동작 플랫폼 & 요구사항
