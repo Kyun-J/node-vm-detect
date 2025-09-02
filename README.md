@@ -12,7 +12,6 @@ npm i node-vm-detect
 ```
 
 # Usage
-## Basic
 Call without any options—this is sufficient for most use cases.
 ```js
 import { getVMInfo } from 'node-vm-detect';
@@ -38,7 +37,7 @@ const {
 
 ## Setting flags
 These correspond to the [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
-For a detailed description of each flag, reference VMAware.
+For a detailed description of each flag, refer to VMAware.
 
 ### Setting a preset
 `Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
@@ -54,15 +53,14 @@ preset: 'DEFAULT' | 'ALL'
 ### Additional setting flags
 Additional setting flags can be specified as an array in the `settings` field.
 ```
-settings: ('NO_MEMO' | 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
+settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 ```
 
-| Flag             | Desciption                                                                                          |
-| ---------------- | --------------------------------------------------------------------------------------------------- |
-| `NO_MEMO`        | Disable memoization, so that the previous detect results are ignored and detected again.            |
-| `MULTIPE`        | Applies to `brand` only. Displays multiple VM Hosts.                                                |
-| `HIGH_THRESHOLD` | Applies to `isVM` and `percentage` only. Increase the threshold for determining if a VM is present. |
-| `DYNAMIC`        | Applies to `conclusion` only. Display the conclusion message in detail.                             |
+| Flag             | Desciption                                                 |
+| ---------------- | ---------------------------------------------------------- |
+| `MULTIPE`        | Displays multiple VM Hosts.                                |
+| `HIGH_THRESHOLD` | Increase the threshold for determining if a VM is present. |
+| `DYNAMIC`        | Display the conclusion message in detail.                  |
 
 
 ## Technique flags
@@ -82,10 +80,10 @@ getVMInfo({
   preset: 'ALL',
 });
 ```
-### 2. Disable memoization and increase detection threshold
+### 2. Increase detection threshold and show more detail in the conclusion message
 ```js
 getVMInfo({
-  settings: ['NO_MEMO', 'HIGH_THRESHOLD'],
+  settings: ['HIGH_THRESHOLD', 'DYNAMIC'],
 });
 ```
 ### 3. Exclude the `VMID` technique
@@ -114,30 +112,16 @@ getVMInfo({
 });
 ```
 
-## Utilities
-Functions to retrieve individual values:
+## Clean
+VM detection is performed on the child process.  
+After detection, child process is removed.
+This is useful for new detections without affecting existing results, or to reduce memory usage.  
+When called with `false`, it works in the current process, and the detection results are stored in memory and recycled on each call with `false`.  
+The default value is `true`.  
 ```js
-import {
-  getBrands,
-  getType,
-  getConclusion,
-  getIsVM,
-  getPercentage,
-  getDetectedTechniques,
-} from 'node-vm-detect';
+getVMInfo({ clean: true });
 ```
-Also available via default import:
-```js
-import nodeVMDetect from 'node-vm-detect';
 
-nodeVMDetect.info();
-nodeVMDetect.isVM();
-nodeVMDetect.brand();
-nodeVMDetect.type();
-nodeVMDetect.conclusion();
-nodeVMDetect.percentage();
-nodeVMDetect.detectedTechniques();
-```
 
 # Supported Platforms & Requirements
 VMAware supports 32-bit environments, but this library only supports 64-bit platforms.  

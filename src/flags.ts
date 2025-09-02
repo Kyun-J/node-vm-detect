@@ -1,17 +1,6 @@
 export type PresetFlags = 'ALL' | 'DEFAULT';
 
-export type SettingFlags =
-  | 'NO_MEMO'
-  | 'MULTIPLE'
-  | 'HIGH_THRESHOLD'
-  | 'DYNAMIC';
-
-export type IsVMSettings = ('NO_MEMO' | 'HIGH_THRESHOLD')[];
-export type BrandSettings = ('NO_MEMO' | 'MULTIPLE')[];
-export type TypeSettings = 'NO_MEMO'[];
-export type ConclusionSettings = ('NO_MEMO' | 'DYNAMIC')[];
-export type PercentageSettings = ('NO_MEMO' | 'HIGH_THRESHOLD')[];
-export type DetectedTechniquesSettings = [];
+export type SettingFlags = 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC';
 
 export type TechniqueFlags =
   // Windows
@@ -49,13 +38,13 @@ export type TechniqueFlags =
   | 'UD'
   | 'BLOCKSTEP'
   | 'DBVM'
+  | 'OBJECTS'
   | 'BOOT_LOGO'
 
   // Linux and Windows
   | 'SIDT'
   | 'FIRMWARE'
   | 'PCI_DEVICES'
-  | 'DISK_SIZE'
   | 'HYPERV_HOSTNAME'
   | 'GENERAL_HOSTNAME'
   | 'VBOX_DEFAULT'
