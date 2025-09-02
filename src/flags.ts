@@ -38,13 +38,13 @@ export type TechniqueFlags =
   | 'UD'
   | 'BLOCKSTEP'
   | 'DBVM'
+  | 'OBJECTS'
   | 'BOOT_LOGO'
 
   // Linux and Windows
   | 'SIDT'
   | 'FIRMWARE'
   | 'PCI_DEVICES'
-  | 'DISK_SIZE'
   | 'HYPERV_HOSTNAME'
   | 'GENERAL_HOSTNAME'
   | 'VBOX_DEFAULT'

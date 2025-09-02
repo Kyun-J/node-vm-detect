@@ -59,13 +59,13 @@ private:
             {"UD", VM::UD},
             {"BLOCKSTEP", VM::BLOCKSTEP},
             {"DBVM", VM::DBVM},
+            {"OBJECTS", VM::OBJECTS},
             {"BOOT_LOGO", VM::BOOT_LOGO},
 
             // Linux and Windows
             {"SIDT", VM::SIDT},
             {"FIRMWARE", VM::FIRMWARE},
             {"PCI_DEVICES", VM::PCI_DEVICES},
-            {"DISK_SIZE", VM::DISK_SIZE},
             {"HYPERV_HOSTNAME", VM::HYPERV_HOSTNAME},
             {"GENERAL_HOSTNAME", VM::GENERAL_HOSTNAME},
             {"VBOX_DEFAULT", VM::VBOX_DEFAULT},
