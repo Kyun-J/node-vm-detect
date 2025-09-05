@@ -130,9 +130,7 @@ private:
         };
 
         VM::enum_flags preset = VM::DEFAULT;
-        VM::enum_flags multiple = VM::DEFAULT;
-        VM::enum_flags highThreshold = VM::DEFAULT;
-        VM::enum_flags dynamic = VM::DEFAULT;
+        std::array<VM::enum_flags, 3> settingFlags = { VM::DEFAULT, VM::DEFAULT, VM::DEFAULT };
         vmFlagset techniqueFlags;
 
         template <typename VMFunc>
@@ -140,9 +138,9 @@ private:
             return std::invoke(
                 std::forward<VMFunc>(func),
                 preset,
-                multiple,
-                highThreshold,
-                dynamic,
+                settingFlags[0],
+                settingFlags[1],
+                settingFlags[2],
                 techniqueFlags
             );
         }
@@ -185,9 +183,9 @@ private:
                 auto it = presetFlagMap.find(presetStr);
                 if (it != presetFlagMap.end()) {
                     preset = it->second;
-                    multiple = it->second;
-                    highThreshold = it->second;
-                    dynamic = it->second;
+                    for (uint8_t i = 0; i < 3; i++) {
+                        settingFlags[i] = it->second;
+                    }
                 }
             }
 
@@ -201,30 +199,26 @@ private:
                     }
                     auto flagStr = flagValue.As<Napi::String>();
                     auto it = settingFlagMap.find(flagStr);
+                    if (it == settingFlagMap.end()) {
+                        continue;
+                    }
                     switch (it->second) {
                         case VM::MULTIPLE:
-                            if (multiple == it->second) {
-                                continue;
-                            }
-                            multiple = it->second;
-                            highThreshold = it->second;
-                            dynamic = it->second;
+                            settingFlags[0] = it->second;
                             break;
                         case VM::HIGH_THRESHOLD:
-                            if (highThreshold == it->second) {
-                                continue;
-                            }
-                            highThreshold = it->second;
-                            dynamic = it->second;
+                            settingFlags[1] = it->second;
                             break;
                         case VM::DYNAMIC:
-                            if (dynamic == it->second) {
-                                continue;
-                            }
-                            dynamic = it->second;
+                            settingFlags[2] = it->second;
                             break;
                         default:
                             break;
+                    }
+                }
+                for (uint8_t i = 0; i < 3; i++) {
+                    if (i > 0 && settingFlags[i] == preset) {
+                        settingFlags[i] = settingFlags[i - 1];
                     }
                 }
             }
