@@ -1,6 +1,6 @@
 {
   "name": "node-vm-detect",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "VM Detection Library for Nodejs & Electron",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@types/node": "^18.19.124",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "jiti": "^2.5.1",
