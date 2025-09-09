@@ -36,8 +36,6 @@ private:
             {"SMSW", VM::SMSW},
             {"DRIVERS", VM::DRIVERS},
             {"REGISTRY_VALUES", VM::REGISTRY_VALUES},
-            {"LOGICAL_PROCESSORS", VM::LOGICAL_PROCESSORS},
-            {"PHYSICAL_PROCESSORS", VM::PHYSICAL_PROCESSORS},
             {"DEVICE_HANDLES", VM::DEVICE_HANDLES},
             {"VIRTUAL_PROCESSORS", VM::VIRTUAL_PROCESSORS},
             {"HYPERV_QUERY", VM::HYPERV_QUERY},
@@ -60,6 +58,8 @@ private:
             {"BLOCKSTEP", VM::BLOCKSTEP},
             {"DBVM", VM::DBVM},
             {"OBJECTS", VM::OBJECTS},
+            {"NVRAM", VM::NVRAM},
+            {"BOOT", VM::BOOT},
             {"BOOT_LOGO", VM::BOOT_LOGO},
 
             // Linux and Windows
@@ -124,7 +124,6 @@ private:
             {"CPU_BRAND", VM::CPU_BRAND},
             {"HYPERVISOR_STR", VM::HYPERVISOR_STR},
             {"CPUID_SIGNATURE", VM::CPUID_SIGNATURE},
-            {"ODD_CPU_THREADS", VM::ODD_CPU_THREADS},
             {"BOCHS_CPU", VM::BOCHS_CPU},
             {"KGT_SIGNATURE", VM::KGT_SIGNATURE},
         };

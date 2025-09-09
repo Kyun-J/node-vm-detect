@@ -15,8 +15,6 @@ export type TechniqueFlags =
   | 'SMSW'
   | 'DRIVERS'
   | 'REGISTRY_VALUES'
-  | 'LOGICAL_PROCESSORS'
-  | 'PHYSICAL_PROCESSORS'
   | 'DEVICE_HANDLES'
   | 'VIRTUAL_PROCESSORS'
   | 'HYPERV_QUERY'
@@ -39,6 +37,8 @@ export type TechniqueFlags =
   | 'BLOCKSTEP'
   | 'DBVM'
   | 'OBJECTS'
+  | 'NVRAM'
+  | 'BOOT'
   | 'BOOT_LOGO'
 
   // Linux and Windows
@@ -103,6 +103,5 @@ export type TechniqueFlags =
   | 'CPU_BRAND'
   | 'HYPERVISOR_STR'
   | 'CPUID_SIGNATURE'
-  | 'ODD_CPU_THREADS'
   | 'BOCHS_CPU'
   | 'KGT_SIGNATURE';

@@ -8,6 +8,12 @@ export const runOnChildProcess = (options?: VMInfoOptions) => {
   return new Promise<VMInfo>((resolve, reject) => {
     const child = fork(
       join(dirname(fileURLToPath(import.meta.url)), 'worker.js'),
+      (process as { electron?: string }).electron
+        ? {
+            execPath: process.execPath,
+            env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' },
+          }
+        : {},
     );
     const sendMessage = (message: ParentEvent) => {
       child.send(message);
