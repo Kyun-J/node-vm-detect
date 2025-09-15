@@ -6,34 +6,38 @@ import { fileURLToPath } from 'node:url';
 
 export const runOnChildProcess = (options?: VMInfoOptions) => {
   return new Promise<VMInfo>((resolve, reject) => {
-    const child = fork(
-      join(dirname(fileURLToPath(import.meta.url)), 'worker.js'),
-      (process as { electron?: string }).electron
-        ? {
-            execPath: process.execPath,
-            env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' },
-          }
-        : {},
-    );
-    const sendMessage = (message: ParentEvent) => {
-      child.send(message);
-    };
-    const killChild = () => {
-      sendMessage({ event: 'kill' });
-      child.kill();
-    };
-    child.on('message', ({ event }: { event: WorkerEvent }) => {
-      switch (event.event) {
-        case 'vmInfo':
-          killChild();
-          resolve(event.data);
-          break;
-        case 'error':
-          killChild();
-          reject(event.error);
-          break;
-      }
-    });
-    sendMessage({ event: 'vmInfo', data: options });
+    try {
+      const child = fork(
+        join(dirname(fileURLToPath(import.meta.url)), 'worker.js'),
+        (process as { electron?: string }).electron
+          ? {
+              execPath: process.execPath,
+              env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' },
+            }
+          : {},
+      );
+      const sendMessage = (message: ParentEvent) => {
+        child.send(message);
+      };
+      const killChild = () => {
+        sendMessage({ event: 'kill' });
+        child.kill();
+      };
+      child.on('message', ({ event }: { event: WorkerEvent }) => {
+        switch (event.event) {
+          case 'vmInfo':
+            killChild();
+            resolve(event.data);
+            break;
+          case 'error':
+            killChild();
+            reject(event.error);
+            break;
+        }
+      });
+      sendMessage({ event: 'vmInfo', data: options });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
