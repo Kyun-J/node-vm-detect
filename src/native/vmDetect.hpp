@@ -59,8 +59,9 @@ private:
             {"DBVM", VM::DBVM},
             {"OBJECTS", VM::OBJECTS},
             {"NVRAM", VM::NVRAM},
-            {"BOOT", VM::BOOT},
+            {"BOOT_MANAGER", VM::BOOT_MANAGER},
             {"BOOT_LOGO", VM::BOOT_LOGO},
+            {"SMBIOS_PASSTHROUGH", VM::SMBIOS_PASSTHROUGH},
 
             // Linux and Windows
             {"SIDT", VM::SIDT},
