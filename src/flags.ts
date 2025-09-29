@@ -38,8 +38,9 @@ export type TechniqueFlags =
   | 'DBVM'
   | 'OBJECTS'
   | 'NVRAM'
-  | 'BOOT'
+  | 'BOOT_MANAGER'
   | 'BOOT_LOGO'
+  | 'SMBIOS_PASSTHROUGH'
 
   // Linux and Windows
   | 'SIDT'
