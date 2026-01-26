@@ -5,6 +5,7 @@ on:
 
 permissions:
   id-token: write
+  contents: write
 
 jobs:
   create-publish-branch:
@@ -30,7 +31,6 @@ jobs:
         with:
           ref: ${{ steps.publish-branch.outputs.publish-branch }}
           message: 'ready to publish'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   macos-build:
     runs-on: macos-latest
@@ -47,7 +47,6 @@ jobs:
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           message: 'build:darwin'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   windows-x64-build:
     runs-on: windows-latest
@@ -64,7 +63,6 @@ jobs:
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           message: 'build:win32:x64'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   windows-arm64-build:
     runs-on: windows-11-arm
@@ -81,7 +79,6 @@ jobs:
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           message: 'build:win32:arm64'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   linux-x64-build:
     runs-on: ubuntu-latest
@@ -104,7 +101,6 @@ jobs:
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           message: 'build:linux:x64'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   linux-arm64-build:
     runs-on: ubuntu-24.04-arm
@@ -128,7 +124,6 @@ jobs:
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
           message: 'build:linux:arm64'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
   npm-publish:
     runs-on: ubuntu-latest
