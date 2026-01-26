@@ -3,6 +3,9 @@ name: Npm publish
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+
 jobs:
   create-publish-branch:
     runs-on: ubuntu-latest
@@ -26,7 +29,7 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ steps.publish-branch.outputs.publish-branch }}
-          message: "ready to publish"
+          message: 'ready to publish'
 
   macos-build:
     runs-on: macos-latest
@@ -42,7 +45,7 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          message: "build:darwin"
+          message: 'build:darwin'
 
   windows-x64-build:
     runs-on: windows-latest
@@ -58,7 +61,7 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          message: "build:win32:x64"
+          message: 'build:win32:x64'
 
   windows-arm64-build:
     runs-on: windows-11-arm
@@ -74,11 +77,17 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          message: "build:win32:arm64"
+          message: 'build:win32:arm64'
 
   linux-x64-build:
     runs-on: ubuntu-latest
-    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build]
+    needs:
+      [
+        create-publish-branch,
+        macos-build,
+        windows-x64-build,
+        windows-arm64-build,
+      ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -90,11 +99,18 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          message: "build:linux:x64"
+          message: 'build:linux:x64'
 
   linux-arm64-build:
     runs-on: ubuntu-24.04-arm
-    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build, linux-x64-build]
+    needs:
+      [
+        create-publish-branch,
+        macos-build,
+        windows-x64-build,
+        windows-arm64-build,
+        linux-x64-build,
+      ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -106,11 +122,19 @@ jobs:
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
-          message: "build:linux:arm64"
+          message: 'build:linux:arm64'
 
   npm-publish:
     runs-on: ubuntu-latest
-    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build, linux-x64-build, linux-arm64-build]
+    needs:
+      [
+        create-publish-branch,
+        macos-build,
+        windows-x64-build,
+        windows-arm64-build,
+        linux-x64-build,
+        linux-arm64-build,
+      ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -118,14 +142,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          access: public
+      - run: npm publish
 
   remove-publish-branch:
     runs-on: ubuntu-latest
-    needs: [create-publish-branch, macos-build, windows-x64-build, windows-arm64-build, linux-x64-build, linux-arm64-build, npm-publish]
+    needs:
+      [
+        create-publish-branch,
+        macos-build,
+        windows-x64-build,
+        windows-arm64-build,
+        linux-x64-build,
+        linux-arm64-build,
+        npm-publish,
+      ]
     if: always()
     steps:
       - uses: actions/checkout@v4
