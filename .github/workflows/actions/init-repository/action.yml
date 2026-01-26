@@ -7,7 +7,8 @@ runs:
     - uses: fregante/setup-git-user@v2
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 24
+        registry-url: 'https://registry.npmjs.org'
     - name: Setup Clang for Linux
       shell: bash
       run: |
