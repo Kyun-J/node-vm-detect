@@ -1,4 +1,6 @@
 #include <napi.h>
+#include <map>
+#include <string>
 #include "vmaware.hpp"
 #include "napiActive.hpp"
 
@@ -26,7 +28,6 @@ private:
         {
             // Windows
             {"GPU_CAPABILITIES", VM::GPU_CAPABILITIES},
-            {"TPM", VM::TPM},
             {"ACPI_SIGNATURE", VM::ACPI_SIGNATURE},
             {"POWER_CAPABILITIES", VM::POWER_CAPABILITIES},
             {"DISK_SERIAL", VM::DISK_SERIAL},
@@ -35,11 +36,9 @@ private:
             {"SLDT", VM::SLDT},
             {"SMSW", VM::SMSW},
             {"DRIVERS", VM::DRIVERS},
-            {"REGISTRY_VALUES", VM::REGISTRY_VALUES},
             {"DEVICE_HANDLES", VM::DEVICE_HANDLES},
             {"VIRTUAL_PROCESSORS", VM::VIRTUAL_PROCESSORS},
-            {"HYPERV_QUERY", VM::HYPERV_QUERY},
-            {"REGISTRY_KEYS", VM::REGISTRY_KEYS},
+            {"HYPERVISOR_QUERY", VM::HYPERVISOR_QUERY},
             {"AUDIO", VM::AUDIO},
             {"DISPLAY", VM::DISPLAY},
             {"DLL", VM::DLL},
@@ -53,23 +52,23 @@ private:
             {"GAMARUE", VM::GAMARUE},
             {"CUCKOO_DIR", VM::CUCKOO_DIR},
             {"CUCKOO_PIPE", VM::CUCKOO_PIPE},
+            {"BOOT_LOGO", VM::BOOT_LOGO},
             {"TRAP", VM::TRAP},
             {"UD", VM::UD},
             {"BLOCKSTEP", VM::BLOCKSTEP},
             {"DBVM", VM::DBVM},
             {"OBJECTS", VM::OBJECTS},
             {"NVRAM", VM::NVRAM},
-            {"BOOT_MANAGER", VM::BOOT_MANAGER},
-            {"BOOT_LOGO", VM::BOOT_LOGO},
-            {"SMBIOS_PASSTHROUGH", VM::SMBIOS_PASSTHROUGH},
+            {"SMBIOS_INTEGRITY", VM::SMBIOS_INTEGRITY},
+            {"EDID", VM::EDID},
+            {"CPU_HEURISTIC", VM::CPU_HEURISTIC},
+            {"CLOCK", VM::CLOCK},
 
             // Linux and Windows
             {"SIDT", VM::SIDT},
             {"FIRMWARE", VM::FIRMWARE},
             {"PCI_DEVICES", VM::PCI_DEVICES},
-            {"HYPERV_HOSTNAME", VM::HYPERV_HOSTNAME},
-            {"GENERAL_HOSTNAME", VM::GENERAL_HOSTNAME},
-            {"VBOX_DEFAULT", VM::VBOX_DEFAULT},
+            {"AZURE", VM::AZURE},
 
             // Linux
             {"SMBIOS_VM_BIT", VM::SMBIOS_VM_BIT},
@@ -118,9 +117,7 @@ private:
             // cross-platform
             {"HYPERVISOR_BIT", VM::HYPERVISOR_BIT},
             {"VMID", VM::VMID},
-            {"INTEL_THREAD_MISMATCH", VM::INTEL_THREAD_MISMATCH},
-            {"AMD_THREAD_MISMATCH", VM::AMD_THREAD_MISMATCH},
-            {"XEON_THREAD_MISMATCH", VM::XEON_THREAD_MISMATCH},
+            {"THREAD_MISMATCH", VM::THREAD_MISMATCH},
             {"TIMER", VM::TIMER},
             {"CPU_BRAND", VM::CPU_BRAND},
             {"HYPERVISOR_STR", VM::HYPERVISOR_STR},
@@ -135,14 +132,12 @@ private:
 
         template <typename VMFunc>
         decltype(auto) runFunc(VMFunc func) {
-            return std::invoke(
-                std::forward<VMFunc>(func),
-                preset,
-                settingFlags[0],
-                settingFlags[1],
-                settingFlags[2],
-                techniqueFlags
-            );
+            vmFlagset flags = techniqueFlags;
+            flags.set(preset);
+            flags.set(settingFlags[0]);
+            flags.set(settingFlags[1]);
+            flags.set(settingFlags[2]);
+            return std::invoke(std::forward<VMFunc>(func), flags);
         }
 
     public:
