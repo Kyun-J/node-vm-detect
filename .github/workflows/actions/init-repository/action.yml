@@ -1,4 +1,5 @@
 name: Init repository
+description: Initialize the repository for the build
 
 runs:
   using: 'composite'

@@ -1,10 +1,13 @@
 name: Commit and push
+description: Commit and push changes to the repository
 
 inputs:
   ref:
     required: false
     default: 'main'
   message:
+    required: true
+  token:
     required: true
 
 runs:
@@ -16,3 +19,5 @@ runs:
         git add .
         git commit -m "${{ inputs.message }}"
         git push origin ${{ inputs.ref }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
