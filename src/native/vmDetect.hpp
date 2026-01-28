@@ -126,9 +126,10 @@ private:
             {"KGT_SIGNATURE", {VM::KGT_SIGNATURE, VM::KGT_SIGNATURE}},
         };
 
-        template <typename VMFunc>
-        decltype(auto) runFunc(VMFunc func) {
-            std::array<VM::enum_flags, VM::MULTIPLE + 1> args;
+        std::array<VM::enum_flags, VM::MULTIPLE + 1> args;
+
+        void generateArgs() {
+            std::memset(args.data(), VM::NULL_ARG, sizeof(args));
             uint8_t index = 0;
             for (auto& [_, value] : presetFlagMap) {
                 args[index] = value.second;
@@ -142,7 +143,6 @@ private:
                 args[index] = value.second;
                 index++;
             }
-            return std::apply(std::forward<VMFunc>(func), args);
         }
 
     public:
@@ -155,12 +155,13 @@ private:
             std::vector<std::string> detectedTechniques;
 
             VMInfo(VMDetector& detector) {
-                brand = detector.runFunc([](auto... args) { return VM::brand(args...); });
-                type = detector.runFunc([](auto... args) { return VM::type(args...); });
-                conclusion = detector.runFunc([](auto... args) { return VM::conclusion(args...); });
-                isVm = detector.runFunc([](auto... args) { return VM::detect(args...); });
-                percentage = detector.runFunc([](auto... args) { return VM::percentage(args...); });
-                auto detectedFlags = detector.runFunc([](auto... args) { return VM::detected_enums(args...); });
+                detector.generateArgs();
+                brand = std::apply([](auto... args) { return VM::brand(args...); }, detector.args);
+                type = std::apply([](auto... args) { return VM::type(args...); }, detector.args);
+                conclusion = std::apply([](auto... args) { return VM::conclusion(args...); }, detector.args);
+                isVm = std::apply([](auto... args) { return VM::detect(args...); }, detector.args);
+                percentage = std::apply([](auto... args) { return VM::percentage(args...); }, detector.args);
+                auto detectedFlags = std::apply([](auto... args) { return VM::detected_enums(args...); }, detector.args);
                 detectedTechniques.reserve(detectedFlags.size());
                 for (const auto flag : detectedFlags) {
                     detectedTechniques.push_back(VM::flag_to_string(flag));

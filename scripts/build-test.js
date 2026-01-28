@@ -11,7 +11,13 @@ const test = async () => {
 };
 
 test()
-  .catch(console.error)
+  .catch((error) => {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
+  })
   .finally(() => {
     fs.rmSync('dist', { recursive: true });
   });
