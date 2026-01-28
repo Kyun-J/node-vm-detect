@@ -10,6 +10,8 @@ const test = async () => {
   console.log('VM Info:', vmInfo);
 };
 
-test().finally(() => {
-  fs.rmSync('dist', { recursive: true });
-});
+test()
+  .catch(console.error)
+  .finally(() => {
+    fs.rmSync('dist', { recursive: true });
+  });
