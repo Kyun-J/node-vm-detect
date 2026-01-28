@@ -11,133 +11,138 @@ private:
     private:
         using vmFlagset = std::bitset<VM::MULTIPLE + 1>;
 
-        const std::map<std::string, VM::enum_flags> presetFlagMap =
+        std::map<std::string, std::pair<VM::enum_flags, VM::enum_flags>> presetFlagMap =
         {
-            {"ALL", VM::ALL},
-            {"DEFAULT", VM::DEFAULT},
+            {"ALL", {VM::ALL, VM::NULL_ARG}},
+            {"DEFAULT", {VM::DEFAULT, VM::NULL_ARG}},
         };
 
-        const std::map<std::string, VM::enum_flags> settingFlagMap =
+        std::map<std::string, std::pair<VM::enum_flags, VM::enum_flags>> settingFlagMap =
         {
-            {"MULTIPLE", VM::MULTIPLE},
-            {"HIGH_THRESHOLD", VM::HIGH_THRESHOLD},
-            {"DYNAMIC", VM::DYNAMIC},
+            {"MULTIPLE", {VM::MULTIPLE, VM::NULL_ARG}},
+            {"HIGH_THRESHOLD", {VM::HIGH_THRESHOLD, VM::NULL_ARG}},
+            {"DYNAMIC", {VM::DYNAMIC, VM::NULL_ARG}},
         };
 
-        const std::map<std::string, VM::enum_flags> techniqueFlagMap =
+        std::map<std::string, std::pair<VM::enum_flags, VM::enum_flags>> techniqueFlagMap =
         {
             // Windows
-            {"GPU_CAPABILITIES", VM::GPU_CAPABILITIES},
-            {"ACPI_SIGNATURE", VM::ACPI_SIGNATURE},
-            {"POWER_CAPABILITIES", VM::POWER_CAPABILITIES},
-            {"DISK_SERIAL", VM::DISK_SERIAL},
-            {"IVSHMEM", VM::IVSHMEM},
-            {"SGDT", VM::SGDT},
-            {"SLDT", VM::SLDT},
-            {"SMSW", VM::SMSW},
-            {"DRIVERS", VM::DRIVERS},
-            {"DEVICE_HANDLES", VM::DEVICE_HANDLES},
-            {"VIRTUAL_PROCESSORS", VM::VIRTUAL_PROCESSORS},
-            {"HYPERVISOR_QUERY", VM::HYPERVISOR_QUERY},
-            {"AUDIO", VM::AUDIO},
-            {"DISPLAY", VM::DISPLAY},
-            {"DLL", VM::DLL},
-            {"VMWARE_BACKDOOR", VM::VMWARE_BACKDOOR},
-            {"WINE", VM::WINE},
-            {"VIRTUAL_REGISTRY", VM::VIRTUAL_REGISTRY},
-            {"MUTEX", VM::MUTEX},
-            {"DEVICE_STRING", VM::DEVICE_STRING},
-            {"VPC_INVALID", VM::VPC_INVALID},
-            {"VMWARE_STR", VM::VMWARE_STR},
-            {"GAMARUE", VM::GAMARUE},
-            {"CUCKOO_DIR", VM::CUCKOO_DIR},
-            {"CUCKOO_PIPE", VM::CUCKOO_PIPE},
-            {"BOOT_LOGO", VM::BOOT_LOGO},
-            {"TRAP", VM::TRAP},
-            {"UD", VM::UD},
-            {"BLOCKSTEP", VM::BLOCKSTEP},
-            {"DBVM", VM::DBVM},
-            {"OBJECTS", VM::OBJECTS},
-            {"NVRAM", VM::NVRAM},
-            {"SMBIOS_INTEGRITY", VM::SMBIOS_INTEGRITY},
-            {"EDID", VM::EDID},
-            {"CPU_HEURISTIC", VM::CPU_HEURISTIC},
-            {"CLOCK", VM::CLOCK},
+            {"GPU_CAPABILITIES", {VM::GPU_CAPABILITIES, VM::GPU_CAPABILITIES}},
+            {"ACPI_SIGNATURE", {VM::ACPI_SIGNATURE, VM::ACPI_SIGNATURE}},
+            {"POWER_CAPABILITIES", {VM::POWER_CAPABILITIES, VM::POWER_CAPABILITIES}},
+            {"DISK_SERIAL", {VM::DISK_SERIAL, VM::DISK_SERIAL}},
+            {"IVSHMEM", {VM::IVSHMEM, VM::IVSHMEM}},
+            {"SGDT", {VM::SGDT, VM::SGDT}},
+            {"SLDT", {VM::SLDT, VM::SLDT}},
+            {"SMSW", {VM::SMSW, VM::SMSW}},
+            {"DRIVERS", {VM::DRIVERS, VM::DRIVERS}},
+            {"DEVICE_HANDLES", {VM::DEVICE_HANDLES, VM::DEVICE_HANDLES}},
+            {"VIRTUAL_PROCESSORS", {VM::VIRTUAL_PROCESSORS, VM::VIRTUAL_PROCESSORS}},
+            {"HYPERVISOR_QUERY", {VM::HYPERVISOR_QUERY, VM::HYPERVISOR_QUERY}},
+            {"AUDIO", {VM::AUDIO, VM::AUDIO}},
+            {"DISPLAY", {VM::DISPLAY, VM::DISPLAY}},
+            {"DLL", {VM::DLL, VM::DLL}},
+            {"VMWARE_BACKDOOR", {VM::VMWARE_BACKDOOR, VM::VMWARE_BACKDOOR}},
+            {"WINE", {VM::WINE, VM::WINE}},
+            {"VIRTUAL_REGISTRY", {VM::VIRTUAL_REGISTRY, VM::VIRTUAL_REGISTRY}},
+            {"MUTEX", {VM::MUTEX, VM::MUTEX}},
+            {"DEVICE_STRING", {VM::DEVICE_STRING, VM::DEVICE_STRING}},
+            {"VPC_INVALID", {VM::VPC_INVALID, VM::VPC_INVALID}},
+            {"VMWARE_STR", {VM::VMWARE_STR, VM::VMWARE_STR}},
+            {"GAMARUE", {VM::GAMARUE, VM::GAMARUE}},
+            {"CUCKOO_DIR", {VM::CUCKOO_DIR, VM::CUCKOO_DIR}},
+            {"CUCKOO_PIPE", {VM::CUCKOO_PIPE, VM::CUCKOO_PIPE}},
+            {"BOOT_LOGO", {VM::BOOT_LOGO, VM::BOOT_LOGO}},
+            {"TRAP", {VM::TRAP, VM::TRAP}},
+            {"UD", {VM::UD, VM::UD}},
+            {"BLOCKSTEP", {VM::BLOCKSTEP, VM::BLOCKSTEP}},
+            {"DBVM", {VM::DBVM, VM::DBVM}},
+            {"OBJECTS", {VM::OBJECTS, VM::OBJECTS}},
+            {"NVRAM", {VM::NVRAM, VM::NVRAM}},
+            {"SMBIOS_INTEGRITY", {VM::SMBIOS_INTEGRITY, VM::SMBIOS_INTEGRITY}},
+            {"EDID", {VM::EDID, VM::EDID}},
+            {"CPU_HEURISTIC", {VM::CPU_HEURISTIC, VM::CPU_HEURISTIC}},
+            {"CLOCK", {VM::CLOCK, VM::CLOCK}},
 
             // Linux and Windows
-            {"SIDT", VM::SIDT},
-            {"FIRMWARE", VM::FIRMWARE},
-            {"PCI_DEVICES", VM::PCI_DEVICES},
-            {"AZURE", VM::AZURE},
+            {"SIDT", {VM::SIDT, VM::SIDT}},
+            {"FIRMWARE", {VM::FIRMWARE, VM::FIRMWARE}},
+            {"PCI_DEVICES", {VM::PCI_DEVICES, VM::PCI_DEVICES}},
+            {"AZURE", {VM::AZURE, VM::AZURE}},
 
             // Linux
-            {"SMBIOS_VM_BIT", VM::SMBIOS_VM_BIT},
-            {"KMSG", VM::KMSG},
-            {"CVENDOR", VM::CVENDOR},
-            {"QEMU_FW_CFG", VM::QEMU_FW_CFG},
-            {"SYSTEMD", VM::SYSTEMD},
-            {"CTYPE", VM::CTYPE},
-            {"DOCKERENV", VM::DOCKERENV},
-            {"DMIDECODE", VM::DMIDECODE},
-            {"DMESG", VM::DMESG},
-            {"HWMON", VM::HWMON},
-            {"LINUX_USER_HOST", VM::LINUX_USER_HOST},
-            {"VMWARE_IOMEM", VM::VMWARE_IOMEM},
-            {"VMWARE_IOPORTS", VM::VMWARE_IOPORTS},
-            {"VMWARE_SCSI", VM::VMWARE_SCSI},
-            {"VMWARE_DMESG", VM::VMWARE_DMESG},
-            {"QEMU_VIRTUAL_DMI", VM::QEMU_VIRTUAL_DMI},
-            {"QEMU_USB", VM::QEMU_USB},
-            {"HYPERVISOR_DIR", VM::HYPERVISOR_DIR},
-            {"UML_CPU", VM::UML_CPU},
-            {"VBOX_MODULE", VM::VBOX_MODULE},
-            {"SYSINFO_PROC", VM::SYSINFO_PROC},
-            {"DMI_SCAN", VM::DMI_SCAN},
-            {"PODMAN_FILE", VM::PODMAN_FILE},
-            {"WSL_PROC", VM::WSL_PROC},
-            {"FILE_ACCESS_HISTORY", VM::FILE_ACCESS_HISTORY},
-            {"MAC", VM::MAC},
-            {"NSJAIL_PID", VM::NSJAIL_PID},
-            {"BLUESTACKS_FOLDERS", VM::BLUESTACKS_FOLDERS},
-            {"AMD_SEV", VM::AMD_SEV},
-            {"TEMPERATURE", VM::TEMPERATURE},
-            {"PROCESSES", VM::PROCESSES},
+            {"SMBIOS_VM_BIT", {VM::SMBIOS_VM_BIT, VM::SMBIOS_VM_BIT}},
+            {"KMSG", {VM::KMSG, VM::KMSG}},
+            {"CVENDOR", {VM::CVENDOR, VM::CVENDOR}},
+            {"QEMU_FW_CFG", {VM::QEMU_FW_CFG, VM::QEMU_FW_CFG}},
+            {"SYSTEMD", {VM::SYSTEMD, VM::SYSTEMD}},
+            {"CTYPE", {VM::CTYPE, VM::CTYPE}},
+            {"DOCKERENV", {VM::DOCKERENV, VM::DOCKERENV}},
+            {"DMIDECODE", {VM::DMIDECODE, VM::DMIDECODE}},
+            {"DMESG", {VM::DMESG, VM::DMESG}},
+            {"HWMON", {VM::HWMON, VM::HWMON}},
+            {"LINUX_USER_HOST", {VM::LINUX_USER_HOST, VM::LINUX_USER_HOST}},
+            {"VMWARE_IOMEM", {VM::VMWARE_IOMEM, VM::VMWARE_IOMEM}},
+            {"VMWARE_IOPORTS", {VM::VMWARE_IOPORTS, VM::VMWARE_IOPORTS}},
+            {"VMWARE_SCSI", {VM::VMWARE_SCSI, VM::VMWARE_SCSI}},
+            {"VMWARE_DMESG", {VM::VMWARE_DMESG, VM::NULL_ARG}},
+            {"QEMU_VIRTUAL_DMI", {VM::QEMU_VIRTUAL_DMI, VM::QEMU_VIRTUAL_DMI}},
+            {"QEMU_USB", {VM::QEMU_USB, VM::QEMU_USB}},
+            {"HYPERVISOR_DIR", {VM::HYPERVISOR_DIR, VM::HYPERVISOR_DIR}},
+            {"UML_CPU", {VM::UML_CPU, VM::UML_CPU}},
+            {"VBOX_MODULE", {VM::VBOX_MODULE, VM::VBOX_MODULE}},
+            {"SYSINFO_PROC", {VM::SYSINFO_PROC, VM::SYSINFO_PROC}},
+            {"DMI_SCAN", {VM::DMI_SCAN, VM::DMI_SCAN}},
+            {"PODMAN_FILE", {VM::PODMAN_FILE, VM::PODMAN_FILE}},
+            {"WSL_PROC", {VM::WSL_PROC, VM::WSL_PROC}},
+            {"FILE_ACCESS_HISTORY", {VM::FILE_ACCESS_HISTORY, VM::FILE_ACCESS_HISTORY}},
+            {"MAC", {VM::MAC, VM::MAC}},
+            {"NSJAIL_PID", {VM::NSJAIL_PID, VM::NSJAIL_PID}},
+            {"BLUESTACKS_FOLDERS", {VM::BLUESTACKS_FOLDERS, VM::BLUESTACKS_FOLDERS}},
+            {"AMD_SEV", {VM::AMD_SEV, VM::AMD_SEV}},
+            {"TEMPERATURE", {VM::TEMPERATURE, VM::TEMPERATURE}},
+            {"PROCESSES", {VM::PROCESSES, VM::PROCESSES}},
 
             // Linux and MacOS
-            {"THREAD_COUNT", VM::THREAD_COUNT},
+            {"THREAD_COUNT", {VM::THREAD_COUNT, VM::THREAD_COUNT}},
 
             // MacOS
-            {"MAC_MEMSIZE", VM::MAC_MEMSIZE},
-            {"MAC_IOKIT", VM::MAC_IOKIT},
-            {"MAC_SIP", VM::MAC_SIP},
-            {"IOREG_GREP", VM::IOREG_GREP},
-            {"HWMODEL", VM::HWMODEL},
-            {"MAC_SYS", VM::MAC_SYS},
+            {"MAC_MEMSIZE", {VM::MAC_MEMSIZE, VM::MAC_MEMSIZE}},
+            {"MAC_IOKIT", {VM::MAC_IOKIT, VM::MAC_IOKIT}},
+            {"MAC_SIP", {VM::MAC_SIP, VM::MAC_SIP}},
+            {"IOREG_GREP", {VM::IOREG_GREP, VM::IOREG_GREP}},
+            {"HWMODEL", {VM::HWMODEL, VM::HWMODEL}},
+            {"MAC_SYS", {VM::MAC_SYS, VM::MAC_SYS}},
 
             // cross-platform
-            {"HYPERVISOR_BIT", VM::HYPERVISOR_BIT},
-            {"VMID", VM::VMID},
-            {"THREAD_MISMATCH", VM::THREAD_MISMATCH},
-            {"TIMER", VM::TIMER},
-            {"CPU_BRAND", VM::CPU_BRAND},
-            {"HYPERVISOR_STR", VM::HYPERVISOR_STR},
-            {"CPUID_SIGNATURE", VM::CPUID_SIGNATURE},
-            {"BOCHS_CPU", VM::BOCHS_CPU},
-            {"KGT_SIGNATURE", VM::KGT_SIGNATURE},
+            {"HYPERVISOR_BIT", {VM::HYPERVISOR_BIT, VM::HYPERVISOR_BIT}},
+            {"VMID", {VM::VMID, VM::VMID}},
+            {"THREAD_MISMATCH", {VM::THREAD_MISMATCH, VM::THREAD_MISMATCH}},
+            {"TIMER", {VM::TIMER, VM::TIMER}},
+            {"CPU_BRAND", {VM::CPU_BRAND, VM::CPU_BRAND}},
+            {"HYPERVISOR_STR", {VM::HYPERVISOR_STR, VM::HYPERVISOR_STR}},
+            {"CPUID_SIGNATURE", {VM::CPUID_SIGNATURE, VM::CPUID_SIGNATURE}},
+            {"BOCHS_CPU", {VM::BOCHS_CPU, VM::BOCHS_CPU}},
+            {"KGT_SIGNATURE", {VM::KGT_SIGNATURE, VM::KGT_SIGNATURE}},
         };
-
-        VM::enum_flags preset = VM::DEFAULT;
-        std::array<VM::enum_flags, 3> settingFlags = { VM::DEFAULT, VM::DEFAULT, VM::DEFAULT };
-        vmFlagset techniqueFlags;
 
         template <typename VMFunc>
         decltype(auto) runFunc(VMFunc func) {
-            vmFlagset flags = techniqueFlags;
-            flags.set(preset);
-            flags.set(settingFlags[0]);
-            flags.set(settingFlags[1]);
-            flags.set(settingFlags[2]);
-            return std::invoke(std::forward<VMFunc>(func), flags);
+            std::array<VM::enum_flags, VM::MULTIPLE + 1> args;
+            uint8_t index = 0;
+            for (auto& [_, value] : presetFlagMap) {
+                args[index] = value.second;
+                index++;
+            }
+            for (auto& [_, value] : settingFlagMap) {
+                args[index] = value.second;
+                index++;
+            }
+            for (auto& [_, value] : techniqueFlagMap) {
+                args[index] = value.second;
+                index++;
+            }
+            return std::apply(std::forward<VMFunc>(func), args);
         }
 
     public:
@@ -164,8 +169,6 @@ private:
         };
 
         VMDetector(const Napi::CallbackInfo& info) {
-            techniqueFlags.set();
-
             Napi::Object options;
             if (info.Length() > 0 && info[0].IsObject()) {
                 options = info[0].As<Napi::Object>();
@@ -173,19 +176,9 @@ private:
                 return;
             }
 
-            if (options.Get("preset").IsString()) {
-                auto presetStr = options.Get("preset").As<Napi::String>();
-                auto it = presetFlagMap.find(presetStr);
-                if (it != presetFlagMap.end()) {
-                    preset = it->second;
-                    for (uint8_t i = 0; i < 3; i++) {
-                        settingFlags[i] = it->second;
-                    }
-                }
-            }
-
-            if (options.Get("settings").IsArray()) {
-                auto settingsArray = options.Get("settings").As<Napi::Array>();
+            auto settings = options.Get("settings");
+            if (settings.IsArray()) {
+                auto settingsArray = settings.As<Napi::Array>();
                 uint8_t length = settingsArray.Length();
                 for (uint8_t i = 0; i < length; i++) {
                     Napi::Value flagValue = settingsArray[i];
@@ -194,35 +187,25 @@ private:
                     }
                     auto flagStr = flagValue.As<Napi::String>();
                     auto it = settingFlagMap.find(flagStr);
-                    if (it == settingFlagMap.end()) {
-                        continue;
-                    }
-                    switch (it->second) {
-                        case VM::MULTIPLE:
-                            settingFlags[0] = it->second;
-                            break;
-                        case VM::HIGH_THRESHOLD:
-                            settingFlags[1] = it->second;
-                            break;
-                        case VM::DYNAMIC:
-                            settingFlags[2] = it->second;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                for (uint8_t i = 0; i < 3; i++) {
-                    if (i > 0 && settingFlags[i] == preset) {
-                        settingFlags[i] = settingFlags[i - 1];
+                    if (it != settingFlagMap.end()) {
+                        it->second.second = it->second.first;
                     }
                 }
             }
 
-            if (options.Get("techniques").IsObject()) {
-                auto techniquesObject = options.Get("techniques").As<Napi::Object>();
+            auto techniques = options.Get("techniques");
+            if (techniques.IsString()) {
+                auto presetStr = techniques.As<Napi::String>();
+                auto it = presetFlagMap.find(presetStr);
+                if (it != presetFlagMap.end()) {
+                    it->second.second = it->second.first;
+                }
+            } else if (techniques.IsObject()) {
+                auto techniquesObject = techniques.As<Napi::Object>();
 
-                if (techniquesObject.Get("only").IsArray()) {
-                    auto onlyArray = techniquesObject.Get("only").As<Napi::Array>();
+                auto only = techniquesObject.Get("only");
+                if (only.IsArray()) {
+                    auto onlyArray = only.As<Napi::Array>();
                     uint8_t length = onlyArray.Length();
                     bool reset = false;
                     for (uint8_t i = 0; i < length; i++) {
@@ -232,17 +215,20 @@ private:
                             auto it = techniqueFlagMap.find(flagStr);
                             if (it != techniqueFlagMap.end()) {
                                 if (!reset) {
-                                    techniqueFlags.reset();
+                                    for (auto& [key, value] : techniqueFlagMap) {
+                                        value.second = VM::NULL_ARG;
+                                    }
                                     reset = true;
                                 }
-                                techniqueFlags.set(it->second);
+                                it->second.second = it->second.first;
                             }
                         }
                     }
                 }
 
-                if (techniquesObject.Get("disable").IsArray()) {
-                    auto disableArray = techniquesObject.Get("disable").As<Napi::Array>();
+                auto disable = techniquesObject.Get("disable");
+                if (disable.IsArray()) {
+                    auto disableArray = disable.As<Napi::Array>();
                     uint8_t length = disableArray.Length();
                     for (uint8_t i = 0; i < length; i++) {
                         Napi::Value flagValue = disableArray[i];
@@ -250,7 +236,7 @@ private:
                             auto flagStr = flagValue.As<Napi::String>();
                             auto it = techniqueFlagMap.find(flagStr);
                             if (it != techniqueFlagMap.end()) {
-                                techniqueFlags.set(it->second, false);
+                                it->second.second = VM::NULL_ARG;
                             }
                         }
                     }

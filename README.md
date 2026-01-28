@@ -39,17 +39,6 @@ const {
 These correspond to the [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
 For a detailed description of each flag, refer to VMAware.
 
-### Setting a preset
-`Presets` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
-```
-preset: 'DEFAULT' | 'ALL'
-```
-
-| Flag      | Desciption                                                        |
-| --------- | ----------------------------------------------------------------- |
-| `DEFAULT` | Use all techniques except the excluded ones. This is the default. |
-| `ALL`     | Use all techniques, including excluded techniques.                |
-
 ### Additional setting flags
 Additional setting flags can be specified as an array in the `settings` field.
 ```
@@ -65,6 +54,19 @@ settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 
 ## Technique flags
 These correspond to VMAware’s [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table).  
+
+### Setting a preset
+`techniques` can be selected from `DEFAULT` or `ALL` (only one must be selected).  
+```
+techniques: 'DEFAULT' | 'ALL'
+```
+
+| Flag      | Desciption                                                        |
+| --------- | ----------------------------------------------------------------- |
+| `DEFAULT` | Use all techniques except the excluded ones. This is the default. |
+| `ALL`     | Use all techniques, including excluded techniques.                |
+
+### Custom technique flags
 You can selectively exclude or include certain techniques.  
 ```
 techniques: {
@@ -77,7 +79,7 @@ techniques: {
 ### 1. Use all available techniques without exclusions
 ```js
 getVMInfo({
-  preset: 'ALL',
+  techniques: 'ALL',
 });
 ```
 ### 2. Increase detection threshold and show more detail in the conclusion message

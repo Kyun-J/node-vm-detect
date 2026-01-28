@@ -37,17 +37,6 @@ const {
 VMAware의 [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags)에 대응됩니다.  
 각 플래그에 대한 자세한 설명은 VMAware를 참조하세요.
 
-### 기본 preset 지정
-`DEFAULT`, `ALL` 중 하나만 선택해서 `preset` 으로 지정합니다.  
-```
-preset: 'DEFAULT' | 'ALL'
-```
-
-| Flag      | Desciption                                                |
-| --------- | --------------------------------------------------------- |
-| `DEFAULT` | 제외된 technique 외 모든 기술을 사용합니다. 기본값입니다. |
-| `ALL`     | 제외된 technique을 포함하여 모든 기술을 사용합니다.       |
-
 ### 그외 setting flags 지정
 그외 setting flags는 `settings`에 배열 형태로 지정합니다.
 ```
@@ -61,7 +50,21 @@ settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 | `DYNAMIC`        | conclusion 메시지를 상세히 표시합니다. |
 
 ## Technique flags
+
 VMAware의 [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
+
+### 기본 preset 지정
+`DEFAULT`, `ALL` 프리셋 중 하나를 선택해서 지정할 수 있습니다.
+```
+techniques: 'DEFAULT' | 'ALL'
+```
+
+| Flag      | Desciption                                                |
+| --------- | --------------------------------------------------------- |
+| `DEFAULT` | 제외된 technique 외 모든 기술을 사용합니다. 기본값입니다. |
+| `ALL`     | 제외된 technique을 포함하여 모든 기술을 사용합니다.       |
+
+### Techiques 지정
 특정 technique을 제외하거나, 특정 technique만을 적용할 수 있습니다.
 ```
 techniques: {
@@ -74,7 +77,7 @@ techniques: {
 ### 1. 제외없이 모든 technique사용
 ```js
 getVMInfo({
-  preset: 'ALL',
+  techniques: 'ALL',
 });
 ```
 ### 2. 감지 임계값을 높이고 conclusion 메시지 상세히 표시.

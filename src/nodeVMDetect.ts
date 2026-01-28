@@ -11,12 +11,13 @@ export interface VMInfo {
 }
 
 export interface VMInfoOptions {
-  preset?: PresetFlags;
   settings?: SettingFlags[];
-  techniques?: {
-    only?: TechniqueFlags[];
-    disable?: TechniqueFlags[];
-  };
+  techniques?:
+    | PresetFlags
+    | {
+        only?: TechniqueFlags[];
+        disable?: TechniqueFlags[];
+      };
 }
 
 type NodeVMDetect = {

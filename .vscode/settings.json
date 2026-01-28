@@ -74,7 +74,8 @@
     "tuple": "cpp",
     "atomic": "cpp",
     "__config": "cpp",
-    "iterator": "cpp"
+    "iterator": "cpp",
+    "cstddef": "cpp"
   },
   "cmake.ignoreCMakeListsMissing": true
 }
