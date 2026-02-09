@@ -32,9 +32,6 @@ private:
             {"POWER_CAPABILITIES", {VM::POWER_CAPABILITIES, VM::POWER_CAPABILITIES}},
             {"DISK_SERIAL", {VM::DISK_SERIAL, VM::DISK_SERIAL}},
             {"IVSHMEM", {VM::IVSHMEM, VM::IVSHMEM}},
-            {"SGDT", {VM::SGDT, VM::SGDT}},
-            {"SLDT", {VM::SLDT, VM::SLDT}},
-            {"SMSW", {VM::SMSW, VM::SMSW}},
             {"DRIVERS", {VM::DRIVERS, VM::DRIVERS}},
             {"DEVICE_HANDLES", {VM::DEVICE_HANDLES, VM::DEVICE_HANDLES}},
             {"VIRTUAL_PROCESSORS", {VM::VIRTUAL_PROCESSORS, VM::VIRTUAL_PROCESSORS}},
@@ -57,7 +54,7 @@ private:
             {"UD", {VM::UD, VM::UD}},
             {"BLOCKSTEP", {VM::BLOCKSTEP, VM::BLOCKSTEP}},
             {"DBVM", {VM::DBVM, VM::DBVM}},
-            {"OBJECTS", {VM::OBJECTS, VM::OBJECTS}},
+            {"KERNEL_OBJECTS", {VM::KERNEL_OBJECTS, VM::KERNEL_OBJECTS}},
             {"NVRAM", {VM::NVRAM, VM::NVRAM}},
             {"SMBIOS_INTEGRITY", {VM::SMBIOS_INTEGRITY, VM::SMBIOS_INTEGRITY}},
             {"EDID", {VM::EDID, VM::EDID}},
@@ -65,7 +62,7 @@ private:
             {"CLOCK", {VM::CLOCK, VM::CLOCK}},
 
             // Linux and Windows
-            {"SIDT", {VM::SIDT, VM::SIDT}},
+            {"SYSTEM_REGISTERS", {VM::SYSTEM_REGISTERS, VM::SYSTEM_REGISTERS}},
             {"FIRMWARE", {VM::FIRMWARE, VM::FIRMWARE}},
             {"PCI_DEVICES", {VM::PCI_DEVICES, VM::PCI_DEVICES}},
             {"AZURE", {VM::AZURE, VM::AZURE}},

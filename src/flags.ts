@@ -9,9 +9,6 @@ export type TechniqueFlags =
   | 'POWER_CAPABILITIES'
   | 'DISK_SERIAL'
   | 'IVSHMEM'
-  | 'SGDT'
-  | 'SLDT'
-  | 'SMSW'
   | 'DRIVERS'
   | 'DEVICE_HANDLES'
   | 'VIRTUAL_PROCESSORS'
@@ -34,7 +31,7 @@ export type TechniqueFlags =
   | 'UD'
   | 'BLOCKSTEP'
   | 'DBVM'
-  | 'OBJECTS'
+  | 'KERNEL_OBJECTS'
   | 'NVRAM'
   | 'SMBIOS_INTEGRITY'
   | 'EDID'
@@ -42,7 +39,7 @@ export type TechniqueFlags =
   | 'CLOCK'
 
   // Linux and Windows
-  | 'SIDT'
+  | 'SYSTEM_REGISTERS'
   | 'FIRMWARE'
   | 'PCI_DEVICES'
   | 'AZURE'
