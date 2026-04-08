@@ -10,7 +10,7 @@ export type TechniqueFlags =
   | 'DISK_SERIAL'
   | 'IVSHMEM'
   | 'DRIVERS'
-  | 'DEVICE_HANDLES'
+  | 'HANDLES'
   | 'VIRTUAL_PROCESSORS'
   | 'HYPERVISOR_QUERY'
   | 'AUDIO'
@@ -30,18 +30,20 @@ export type TechniqueFlags =
   | 'TRAP'
   | 'UD'
   | 'BLOCKSTEP'
-  | 'DBVM'
+  | 'DBVM_HYPERCALL'
   | 'KERNEL_OBJECTS'
   | 'NVRAM'
-  | 'SMBIOS_INTEGRITY'
   | 'EDID'
   | 'CPU_HEURISTIC'
   | 'CLOCK'
+  | 'MSR'
+  | 'KVM_INTERCEPTION'
+  | 'BREAKPOINT'
 
   // Linux and Windows
   | 'SYSTEM_REGISTERS'
   | 'FIRMWARE'
-  | 'PCI_DEVICES'
+  | 'DEVICES'
   | 'AZURE'
 
   // Linux
@@ -73,7 +75,7 @@ export type TechniqueFlags =
   | 'MAC'
   | 'NSJAIL_PID'
   | 'BLUESTACKS_FOLDERS'
-  | 'AMD_SEV'
+  | 'AMD_SEV_MSR'
   | 'TEMPERATURE'
   | 'PROCESSES'
 
