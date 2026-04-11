@@ -17,9 +17,8 @@
         ["OS=='win'", {
           "libraries": [
             "setupapi.lib",
-            "shlwapi.lib",
             "powrprof.lib",
-            "tbs.lib"
+            "wevtapi.lib"
           ],
           "msvs_settings": {
             "VCCLCompilerTool": {
