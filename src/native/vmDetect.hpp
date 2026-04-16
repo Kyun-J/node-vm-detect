@@ -176,6 +176,10 @@ private:
                 return;
             }
 
+            for (const auto flag : VM::disabled_techniques) {
+                techniqueFlagMap[VM::flag_to_string(flag)].second = VM::NULL_ARG;
+            }
+
             auto settings = options.Get("settings");
             if (settings.IsArray()) {
                 auto settingsArray = settings.As<Napi::Array>();
@@ -198,6 +202,9 @@ private:
                 auto presetStr = techniques.As<Napi::String>();
                 auto it = presetFlagMap.find(presetStr);
                 if (it != presetFlagMap.end()) {
+                    for (auto& [key, value] : techniqueFlagMap) {
+                        value.second = VM::NULL_ARG;
+                    }
                     it->second.second = it->second.first;
                 }
             } else if (techniques.IsObject()) {
