@@ -1,10 +1,11 @@
 {
   "name": "node-vm-detect",
-  "version": "0.5.2",
+  "version": "0.6.0-alpha.1",
   "description": "VM Detection Library for Nodejs & Electron",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "gypfile": false,
   "files": [
     "dist"
   ],
@@ -23,8 +24,8 @@
     "typescript",
     "javascript"
   ],
+  "bin": "dist/cli.js",
   "scripts": {
-    "install": "npm install --ignore-scripts",
     "gyp:darwin": "node ./scripts/build-gyp-darwin.js",
     "gyp": "node ./scripts/build-gyp.js",
     "build:test": "node ./scripts/build-test.js",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@types/node": "^18.19.130",
+    "commander": "^14.0.3",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
