@@ -160,7 +160,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Move back to dist
         run: mv temp dist
-      - run: npm publish --tag alpha
+      - run: npm publish
 
   remove-publish-branch:
     runs-on: ubuntu-latest
