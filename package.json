@@ -1,6 +1,6 @@
 {
   "name": "node-vm-detect",
-  "version": "0.6.0-alpha.1",
+  "version": "0.6.0",
   "description": "VM Detection Library for Nodejs & Electron",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -50,10 +50,10 @@
     "eslint-plugin-prettier": "^5.5.5",
     "jiti": "^2.6.1",
     "node-addon-api": "^8.7.0",
-    "node-gyp": "^12.2.0",
+    "node-gyp": "^12.3.0",
     "prettier": "^3.8.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.58.2",
+    "typescript-eslint": "^8.59.0",
     "vite": "^6.4.2",
     "vite-plugin-dts": "^4.5.4"
   }

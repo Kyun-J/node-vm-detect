@@ -8,10 +8,10 @@ export interface GetVMInfoOptions extends VMInfoOptions {
 }
 
 export const getVMInfo = (options?: GetVMInfoOptions): Promise<VMInfo> => {
-  if (options?.runOnChild === false) {
-    return getNodeVMDetect(options?.moduleRoot).info(options);
-  } else {
+  if (options?.runOnChild) {
     return runOnChildProcess(options);
+  } else {
+    return getNodeVMDetect(options?.moduleRoot).info(options);
   }
 };
 
