@@ -27,6 +27,8 @@ jobs:
           git push origin ${{ steps.publish-branch.outputs.publish-branch }}
       - name: Bundle
         run: npm run bundle
+      - name: Copy to temp
+        run: cp -fr dist temp
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ steps.publish-branch.outputs.publish-branch }}
@@ -43,6 +45,8 @@ jobs:
       - uses: ./.github/workflows/actions/init-repository
       - name: Build
         run: npm run gyp:darwin
+      - name: Copy to temp
+        run: cp -fr dist/* temp/
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
@@ -59,6 +63,9 @@ jobs:
       - uses: ./.github/workflows/actions/init-repository
       - name: Build
         run: npm run gyp
+      - name: Copy to temp
+        run: xcopy /y /e "dist\" "temp\"
+        shell: cmd
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
@@ -75,6 +82,9 @@ jobs:
       - uses: ./.github/workflows/actions/init-repository
       - name: Build
         run: npm run gyp
+      - name: Copy to temp
+        run: xcopy /y /e "dist\" "temp\"
+        shell: cmd
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
@@ -97,6 +107,8 @@ jobs:
       - uses: ./.github/workflows/actions/init-repository
       - name: Build
         run: npm run gyp
+      - name: Copy to temp
+        run: cp -fr dist/* temp/
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
@@ -120,6 +132,8 @@ jobs:
       - uses: ./.github/workflows/actions/init-repository
       - name: Build
         run: npm run gyp
+      - name: Copy to temp
+        run: cp -fr dist/* temp/
       - uses: ./.github/workflows/actions/commit-and-push
         with:
           ref: ${{ needs.create-publish-branch.outputs.publish-branch }}
@@ -144,7 +158,9 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
-      - run: npm publish
+      - name: Move back to dist
+        run: mv temp dist
+      - run: npm publish --tag alpha
 
   remove-publish-branch:
     runs-on: ubuntu-latest

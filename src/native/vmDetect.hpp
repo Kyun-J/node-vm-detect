@@ -11,10 +11,11 @@ private:
     private:
         using vmFlagset = std::bitset<VM::MULTIPLE + 1>;
 
-        std::map<std::string, std::pair<VM::enum_flags, VM::enum_flags>> presetFlagMap =
-        {
-            {"ALL", {VM::ALL, VM::NULL_ARG}},
-            {"DEFAULT", {VM::DEFAULT, VM::NULL_ARG}},
+        std::string presetAllString = "ALL";
+
+        std::unordered_set<std::string> presetFlags = {
+            presetAllString,
+            "DEFAULT"
         };
 
         std::map<std::string, std::pair<VM::enum_flags, VM::enum_flags>> settingFlagMap =
@@ -130,10 +131,6 @@ private:
         void generateArgs() {
             std::memset(args.data(), VM::NULL_ARG, sizeof(args));
             uint8_t index = 0;
-            for (auto& [_, value] : presetFlagMap) {
-                args[index] = value.second;
-                index++;
-            }
             for (auto& [_, value] : settingFlagMap) {
                 args[index] = value.second;
                 index++;
@@ -176,10 +173,6 @@ private:
                 return;
             }
 
-            for (const auto flag : VM::disabled_techniques) {
-                techniqueFlagMap[VM::flag_to_string(flag)].second = VM::NULL_ARG;
-            }
-
             auto settings = options.Get("settings");
             if (settings.IsArray()) {
                 auto settingsArray = settings.As<Napi::Array>();
@@ -197,15 +190,19 @@ private:
                 }
             }
 
+            for (const auto flag : VM::disabled_techniques) {
+                techniqueFlagMap[VM::flag_to_string(flag)].second = VM::NULL_ARG;
+            }
+
             auto techniques = options.Get("techniques");
             if (techniques.IsString()) {
                 auto presetStr = techniques.As<Napi::String>();
-                auto it = presetFlagMap.find(presetStr);
-                if (it != presetFlagMap.end()) {
-                    for (auto& [key, value] : techniqueFlagMap) {
-                        value.second = VM::NULL_ARG;
+                auto it = presetFlags.find(presetStr);
+                if (it != presetFlags.end() && *it == presetAllString) {
+                    for (const auto flag : VM::disabled_techniques) {
+                        auto target = &techniqueFlagMap[VM::flag_to_string(flag)];
+                        target->second = target->first;
                     }
-                    it->second.second = it->second.first;
                 }
             } else if (techniques.IsObject()) {
                 auto techniquesObject = techniques.As<Napi::Object>();

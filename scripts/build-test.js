@@ -1,5 +1,4 @@
 import { execSync } from 'child_process';
-import fs from 'fs';
 
 execSync('npm run bundle');
 execSync('npm run gyp');
@@ -10,14 +9,10 @@ const test = async () => {
   console.log('VM Info:', vmInfo);
 };
 
-test()
-  .catch((error) => {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
-  })
-  .finally(() => {
-    fs.rmSync('dist', { recursive: true });
-  });
+test().catch((error) => {
+  if (error instanceof Error) {
+    console.error(error.message);
+  } else {
+    console.error(error);
+  }
+});

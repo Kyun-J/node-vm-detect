@@ -1,5 +1,6 @@
 import { getNodeVMDetect } from './nodeVMDetect';
-import type { VMInfoOptions, VMInfo } from './nodeVMDetect';
+import type { VMInfo } from './nodeVMDetect';
+import type { GetVMInfoOptions } from '.';
 
 type VMInfoResponseEvent = {
   event: 'vmInfo';
@@ -15,7 +16,7 @@ export type WorkerEvent = VMInfoResponseEvent | ErrorEvent;
 
 type VMInfoRequestEvent = {
   event: 'vmInfo';
-  data?: VMInfoOptions;
+  data?: GetVMInfoOptions;
 };
 
 type KillEvent = {
@@ -32,7 +33,7 @@ process.on('message', (event: ParentEvent) => {
   switch (event.event) {
     case 'vmInfo':
       try {
-        getNodeVMDetect()
+        getNodeVMDetect(event.data?.moduleRoot)
           .info(event.data)
           .then((data) => sendEvent({ event: 'vmInfo', data }))
           .catch((error) => sendEvent({ event: 'error', error }));

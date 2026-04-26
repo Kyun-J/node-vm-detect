@@ -1,14 +1,21 @@
 import { fork } from 'node:child_process';
-import type { VMInfo, VMInfoOptions } from './nodeVMDetect';
+import type { VMInfo } from './nodeVMDetect';
 import type { ParentEvent, WorkerEvent } from './worker';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { GetVMInfoOptions } from '.';
 
-export const runOnChildProcess = (options?: VMInfoOptions) => {
+export const runOnChildProcess = (options?: GetVMInfoOptions) => {
   return new Promise<VMInfo>((resolve, reject) => {
     try {
+      const childModulePath =
+        typeof options?.runOnChild === 'string' && options.runOnChild;
       const child = fork(
-        join(dirname(fileURLToPath(import.meta.url)), 'worker.js'),
+        childModulePath ||
+          join(
+            dirname(fileURLToPath(import.meta.url)),
+            'node-vm-detect-child.js',
+          ),
         (process as { electron?: string }).electron
           ? {
               execPath: process.execPath,

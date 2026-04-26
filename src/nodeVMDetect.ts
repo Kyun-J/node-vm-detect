@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import type { SettingFlags, PresetFlags, TechniqueFlags } from './flags';
+import { resolve } from 'node:path';
 
 export interface VMInfo {
   isVM: boolean;
@@ -25,7 +26,7 @@ type NodeVMDetect = {
 };
 
 export const getNodeVMDetect = Object.assign(
-  () => {
+  (moduleRoot?: string) => {
     if (getNodeVMDetect.loaded) {
       return getNodeVMDetect.loaded;
     }
@@ -37,7 +38,9 @@ export const getNodeVMDetect = Object.assign(
       throw new Error('Unsupported platform');
     }
     const loaded: NodeVMDetect = createRequire(import.meta.url)(
-      `./${platform}/${arch}/vmDetect.node`,
+      moduleRoot
+        ? resolve(moduleRoot, `./${platform}/${arch}/vmDetect.node`)
+        : `./${platform}/${arch}/vmDetect.node`,
     );
     getNodeVMDetect.loaded = loaded;
     return loaded;

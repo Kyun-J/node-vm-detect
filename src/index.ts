@@ -3,14 +3,15 @@ import type { VMInfoOptions, VMInfo } from './nodeVMDetect';
 import { runOnChildProcess } from './runOnChildProcess';
 
 export interface GetVMInfoOptions extends VMInfoOptions {
-  clean?: boolean;
+  runOnChild?: boolean | string;
+  moduleRoot?: string;
 }
 
 export const getVMInfo = (options?: GetVMInfoOptions): Promise<VMInfo> => {
-  if (options?.clean === false) {
-    return getNodeVMDetect().info(options);
-  } else {
+  if (options?.runOnChild) {
     return runOnChildProcess(options);
+  } else {
+    return getNodeVMDetect(options?.moduleRoot).info(options);
   }
 };
 
