@@ -200,8 +200,8 @@ private:
                 auto it = presetFlags.find(presetStr);
                 if (it != presetFlags.end() && *it == presetAllString) {
                     for (const auto flag : VM::disabled_techniques) {
-                        auto target = techniqueFlagMap[VM::flag_to_string(flag)];
-                        target.second = target.first;
+                        auto target = &techniqueFlagMap[VM::flag_to_string(flag)];
+                        target->second = target->first;
                     }
                 }
             } else if (techniques.IsObject()) {
