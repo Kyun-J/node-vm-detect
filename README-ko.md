@@ -1,8 +1,8 @@
 # Node VM detect
 Nodejs에서 PC가 VM환경인지 감지하는 라이브러리 입니다.  
-[VMAware](https://github.com/kernelwernel/VMAware) 라이브러리를 통해 C++기반 크로스 플랫폼으로 동작합니다.  
+[VMAware](https://github.com/NotRequiem/VMAware) 라이브러리를 통해 C++기반 크로스 플랫폼으로 동작합니다.  
 electron 기반 앱에서 VM을 감지하는데 유용하게 사용할 수 있을 것으로 기대합니다.  
-VM감지에 대한 자세한 사항은 [VMAware](https://github.com/kernelwernel/VMAware)를 참고하세요.
+VM감지에 대한 자세한 사항은 [VMAware](https://github.com/NotRequiem/VMAware)를 참고하세요.
 
 # 설치
 ```
@@ -34,7 +34,7 @@ const {
 | `detectedTechniques` | TechniqueFlags[] | 감지된 technique목록         |
 
 ## Setting flags
-VMAware의 [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags)에 대응됩니다.  
+VMAware의 [setting flags](https://github.com/NotRequiem/VMAware/wiki/Documentation#setting-flags)에 대응됩니다.  
 각 플래그에 대한 자세한 설명은 VMAware를 참조하세요.
 
 ### setting flags 지정
@@ -46,12 +46,13 @@ settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 | Flag             | Desciption                             |
 | ---------------- | -------------------------------------- |
 | `MULTIPE`        | 복수개의 VM Host를 표시합니다.         |
+| `EXPERIMENTAL`   | 실험/개발 technique을 비활성화합니다.  |
 | `HIGH_THRESHOLD` | VM여부 판별의 임계값을 높입니다.       |
 | `DYNAMIC`        | conclusion 메시지를 상세히 표시합니다. |
 
 ## Technique flags
 
-VMAware의 [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
+VMAware의 [flag table](https://github.com/NotRequiem/VMAware/wiki/Documentation#flag-table) 에 대응됩니다.  
 
 ### 기본 preset 지정
 `DEFAULT`, `ALL` 프리셋 중 하나를 선택해서 지정할 수 있습니다.

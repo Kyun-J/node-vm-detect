@@ -22,6 +22,7 @@ private:
         {
             {"MULTIPLE", {VM::MULTIPLE, VM::NULL_ARG}},
             {"HIGH_THRESHOLD", {VM::HIGH_THRESHOLD, VM::NULL_ARG}},
+            {"EXPERIMENTAL", {VM::EXPERIMENTAL, VM::NULL_ARG}},
             {"DYNAMIC", {VM::DYNAMIC, VM::NULL_ARG}},
         };
 
@@ -31,7 +32,6 @@ private:
             {"GPU_CAPABILITIES", {VM::GPU_CAPABILITIES, VM::GPU_CAPABILITIES}},
             {"ACPI_SIGNATURE", {VM::ACPI_SIGNATURE, VM::ACPI_SIGNATURE}},
             {"POWER_CAPABILITIES", {VM::POWER_CAPABILITIES, VM::POWER_CAPABILITIES}},
-            {"DISK_SERIAL", {VM::DISK_SERIAL, VM::DISK_SERIAL}},
             {"IVSHMEM", {VM::IVSHMEM, VM::IVSHMEM}},
             {"DRIVERS", {VM::DRIVERS, VM::DRIVERS}},
             {"HANDLES", {VM::HANDLES, VM::HANDLES}},
@@ -44,31 +44,35 @@ private:
             {"WINE", {VM::WINE, VM::WINE}},
             {"VIRTUAL_REGISTRY", {VM::VIRTUAL_REGISTRY, VM::VIRTUAL_REGISTRY}},
             {"MUTEX", {VM::MUTEX, VM::MUTEX}},
-            {"DEVICE_STRING", {VM::DEVICE_STRING, VM::DEVICE_STRING}},
             {"VPC_INVALID", {VM::VPC_INVALID, VM::VPC_INVALID}},
             {"VMWARE_STR", {VM::VMWARE_STR, VM::VMWARE_STR}},
             {"GAMARUE", {VM::GAMARUE, VM::GAMARUE}},
             {"CUCKOO_DIR", {VM::CUCKOO_DIR, VM::CUCKOO_DIR}},
             {"CUCKOO_PIPE", {VM::CUCKOO_PIPE, VM::CUCKOO_PIPE}},
-            {"BOOT_LOGO", {VM::BOOT_LOGO, VM::BOOT_LOGO}},
             {"TRAP", {VM::TRAP, VM::TRAP}},
             {"UD", {VM::UD, VM::UD}},
-            {"BLOCKSTEP", {VM::BLOCKSTEP, VM::BLOCKSTEP}},
-            {"DBVM_HYPERCALL", {VM::DBVM_HYPERCALL, VM::DBVM_HYPERCALL}},
+            {"INTERRUPT_SHADOW", {VM::INTERRUPT_SHADOW, VM::INTERRUPT_SHADOW}},
+            {"DBVM", {VM::DBVM, VM::DBVM}},
             {"KERNEL_OBJECTS", {VM::KERNEL_OBJECTS, VM::KERNEL_OBJECTS}},
             {"NVRAM", {VM::NVRAM, VM::NVRAM}},
-            {"EDID", {VM::EDID, VM::EDID}},
             {"CPU_HEURISTIC", {VM::CPU_HEURISTIC, VM::CPU_HEURISTIC}},
             {"CLOCK", {VM::CLOCK, VM::CLOCK}},
             {"MSR", {VM::MSR, VM::MSR}},
             {"KVM_INTERCEPTION", {VM::KVM_INTERCEPTION, VM::KVM_INTERCEPTION}},
-            {"BREAKPOINT", {VM::BREAKPOINT, VM::BREAKPOINT}},
+            {"HYPERVISOR_HOOK", {VM::HYPERVISOR_HOOK, VM::HYPERVISOR_HOOK}},
+            {"SINGLE_STEP", {VM::SINGLE_STEP, VM::SINGLE_STEP}},
+            {"EIP_OVERFLOW", {VM::EIP_OVERFLOW, VM::EIP_OVERFLOW}},
+            {"SVM_EXCEPTIONS", {VM::SVM_EXCEPTIONS, VM::SVM_EXCEPTIONS}},
+            {"HYPERV_NESTED", {VM::HYPERV_NESTED, VM::HYPERV_NESTED}},
+            {"TPM", {VM::TPM, VM::TPM}},
 
             // Linux and Windows
             {"SYSTEM_REGISTERS", {VM::SYSTEM_REGISTERS, VM::SYSTEM_REGISTERS}},
             {"FIRMWARE", {VM::FIRMWARE, VM::FIRMWARE}},
             {"DEVICES", {VM::DEVICES, VM::DEVICES}},
             {"AZURE", {VM::AZURE, VM::AZURE}},
+            {"BOOT_LOGO", {VM::BOOT_LOGO, VM::BOOT_LOGO}},
+            {"DISK_SERIAL", {VM::DISK_SERIAL, VM::DISK_SERIAL}},
 
             // Linux
             {"SMBIOS_VM_BIT", {VM::SMBIOS_VM_BIT, VM::SMBIOS_VM_BIT}},
@@ -97,10 +101,11 @@ private:
             {"WSL_PROC", {VM::WSL_PROC, VM::WSL_PROC}},
             {"FILE_ACCESS_HISTORY", {VM::FILE_ACCESS_HISTORY, VM::FILE_ACCESS_HISTORY}},
             {"MAC", {VM::MAC, VM::MAC}},
-            {"NSJAIL_PID", {VM::NSJAIL_PID, VM::NSJAIL_PID}},
+            {"CONTAINER_PID", {VM::CONTAINER_PID, VM::CONTAINER_PID}},
             {"BLUESTACKS_FOLDERS", {VM::BLUESTACKS_FOLDERS, VM::BLUESTACKS_FOLDERS}},
             {"AMD_SEV_MSR", {VM::AMD_SEV_MSR, VM::AMD_SEV_MSR}},
             {"TEMPERATURE", {VM::TEMPERATURE, VM::TEMPERATURE}},
+            {"CGROUP", {VM::CGROUP, VM::CGROUP}},
             {"PROCESSES", {VM::PROCESSES, VM::PROCESSES}},
 
             // Linux and MacOS
@@ -184,7 +189,11 @@ private:
                     }
                     auto flagStr = flagValue.As<Napi::String>();
                     auto it = settingFlagMap.find(flagStr);
-                    if (it != settingFlagMap.end()) {
+                    if (it->second.first == VM::EXPERIMENTAL) {
+                        for (const auto flag : VM::experimental_techniques) {
+                            techniqueFlagMap[VM::flag_to_string(flag)].second = VM::NULL_ARG;
+                        }
+                    } else if (it != settingFlagMap.end()) {
                         it->second.second = it->second.first;
                     }
                 }

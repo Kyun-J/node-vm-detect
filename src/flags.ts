@@ -1,13 +1,13 @@
 export type PresetFlags = 'ALL' | 'DEFAULT';
 
-export type SettingFlags = 'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC';
+export type SettingFlags =
+  'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC' | 'EXPERIMENTAL';
 
 export type TechniqueFlags =
   // Windows
   | 'GPU_CAPABILITIES'
   | 'ACPI_SIGNATURE'
   | 'POWER_CAPABILITIES'
-  | 'DISK_SERIAL'
   | 'IVSHMEM'
   | 'DRIVERS'
   | 'HANDLES'
@@ -20,31 +20,35 @@ export type TechniqueFlags =
   | 'WINE'
   | 'VIRTUAL_REGISTRY'
   | 'MUTEX'
-  | 'DEVICE_STRING'
   | 'VPC_INVALID'
   | 'VMWARE_STR'
   | 'GAMARUE'
   | 'CUCKOO_DIR'
   | 'CUCKOO_PIPE'
-  | 'BOOT_LOGO'
   | 'TRAP'
   | 'UD'
-  | 'BLOCKSTEP'
-  | 'DBVM_HYPERCALL'
+  | 'INTERRUPT_SHADOW'
+  | 'DBVM'
   | 'KERNEL_OBJECTS'
   | 'NVRAM'
-  | 'EDID'
   | 'CPU_HEURISTIC'
   | 'CLOCK'
   | 'MSR'
   | 'KVM_INTERCEPTION'
-  | 'BREAKPOINT'
+  | 'HYPERVISOR_HOOK'
+  | 'SINGLE_STEP'
+  | 'EIP_OVERFLOW'
+  | 'SVM_EXCEPTIONS'
+  | 'HYPERV_NESTED'
+  | 'TPM'
 
   // Linux and Windows
   | 'SYSTEM_REGISTERS'
   | 'FIRMWARE'
   | 'DEVICES'
   | 'AZURE'
+  | 'BOOT_LOGO'
+  | 'DISK_SERIAL'
 
   // Linux
   | 'SMBIOS_VM_BIT'
@@ -73,10 +77,11 @@ export type TechniqueFlags =
   | 'WSL_PROC'
   | 'FILE_ACCESS_HISTORY'
   | 'MAC'
-  | 'NSJAIL_PID'
+  | 'CONTAINER_PID'
   | 'BLUESTACKS_FOLDERS'
   | 'AMD_SEV_MSR'
   | 'TEMPERATURE'
+  | 'CGROUP'
   | 'PROCESSES'
 
   // Linux and MacOS

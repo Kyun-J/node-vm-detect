@@ -1,9 +1,9 @@
 # Node VM Detect
 
 A Node.js library for detecting whether the current system is running in a virtual machine (VM).    
-It is powered by the cross-platform C++ library [VMAware](https://github.com/kernelwernel/VMAware).  
+It is powered by the cross-platform C++ library [VMAware](https://github.com/NotRequiem/VMAware).  
 This can be particularly useful for detecting VM environments in Electron-based applications.  
-For more detailed information on VM detection, refer to [VMAware](https://github.com/kernelwernel/VMAware).
+For more detailed information on VM detection, refer to [VMAware](https://github.com/NotRequiem/VMAware).
 
 # Install
 
@@ -36,7 +36,7 @@ const {
 | `detectedTechniques` | TechniqueFlags[] | List of detected techniques             |
 
 ## Setting flags
-These correspond to the [setting flags](https://github.com/kernelwernel/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
+These correspond to the [setting flags](https://github.com/NotRequiem/VMAware/wiki/Documentation#setting-flags) used in VMAware.  
 For a detailed description of each flag, refer to VMAware.
 
 ### Set the setting flags
@@ -45,15 +45,16 @@ Setting flags can be specified as an array in the `settings` field.
 settings: ('MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC')[]
 ```
 
-| Flag             | Description                               |
-| ---------------- | ----------------------------------------- |
-| `MULTIPE`        | Displays multiple VM Hosts.               |
-| `HIGH_THRESHOLD` | Increases the threshold for VM detection. |
-| `DYNAMIC`        | Display the conclusion message in detail. |
+| Flag             | Description                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| `MULTIPE`        | Displays multiple VM Hosts.                                       |
+| `EXPERIMENTAL`   | Disables execution of techniques marked as experimental/untested. |
+| `HIGH_THRESHOLD` | Increases the threshold for VM detection.                         |
+| `DYNAMIC`        | Display the conclusion message in detail.                         |
 
 
 ## Technique flags
-These correspond to VMAware’s [flag table](https://github.com/kernelwernel/VMAware/wiki/Documentation#flag-table).  
+These correspond to VMAware’s [flag table](https://github.com/NotRequiem/VMAware/wiki/Documentation#flag-table).  
 
 ### Setting a preset
 `techniques` can be selected from `DEFAULT` or `ALL`.  
