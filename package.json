@@ -1,6 +1,6 @@
 {
   "name": "node-vm-detect",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "VM Detection Library for Nodejs & Electron",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",

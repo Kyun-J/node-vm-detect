@@ -4,27 +4,23 @@ export type SettingFlags =
   'MULTIPLE' | 'HIGH_THRESHOLD' | 'DYNAMIC' | 'EXPERIMENTAL';
 
 export type TechniqueFlags =
-  // Windows
+  /* Windows */
   | 'GPU_CAPABILITIES'
   | 'ACPI_SIGNATURE'
   | 'POWER_CAPABILITIES'
-  | 'IVSHMEM'
   | 'DRIVERS'
   | 'HANDLES'
   | 'VIRTUAL_PROCESSORS'
-  | 'HYPERVISOR_QUERY'
   | 'AUDIO'
   | 'DISPLAY'
   | 'DLL'
-  | 'VMWARE_BACKDOOR'
   | 'WINE'
   | 'VIRTUAL_REGISTRY'
   | 'MUTEX'
   | 'VPC_INVALID'
   | 'VMWARE_STR'
   | 'GAMARUE'
-  | 'CUCKOO_DIR'
-  | 'CUCKOO_PIPE'
+  | 'CUCKOO'
   | 'TRAP'
   | 'UD'
   | 'INTERRUPT_SHADOW'
@@ -39,18 +35,18 @@ export type TechniqueFlags =
   | 'SINGLE_STEP'
   | 'EIP_OVERFLOW'
   | 'SVM_EXCEPTIONS'
-  | 'HYPERV_NESTED'
+  | 'MEASURED_BOOT'
   | 'TPM'
 
-  // Linux and Windows
+  /* Linux and Windows */
   | 'SYSTEM_REGISTERS'
   | 'FIRMWARE'
   | 'DEVICES'
   | 'AZURE'
   | 'BOOT_LOGO'
-  | 'DISK_SERIAL'
+  | 'DISK'
 
-  // Linux
+  /* Linux */
   | 'SMBIOS_VM_BIT'
   | 'KMSG'
   | 'CVENDOR'
@@ -62,10 +58,6 @@ export type TechniqueFlags =
   | 'DMESG'
   | 'HWMON'
   | 'LINUX_USER_HOST'
-  | 'VMWARE_IOMEM'
-  | 'VMWARE_IOPORTS'
-  | 'VMWARE_SCSI'
-  | 'VMWARE_DMESG'
   | 'QEMU_VIRTUAL_DMI'
   | 'QEMU_USB'
   | 'HYPERVISOR_DIR'
@@ -84,10 +76,10 @@ export type TechniqueFlags =
   | 'CGROUP'
   | 'PROCESSES'
 
-  // Linux and MacOS
+  /* Linux and MacOS */
   | 'THREAD_COUNT'
 
-  // MacOS
+  /* MacOS */
   | 'MAC_MEMSIZE'
   | 'MAC_IOKIT'
   | 'MAC_SIP'
@@ -95,7 +87,7 @@ export type TechniqueFlags =
   | 'HWMODEL'
   | 'MAC_SYS'
 
-  // cross-platform
+  /* Cross-platform */
   | 'HYPERVISOR_BIT'
   | 'VMID'
   | 'THREAD_MISMATCH'
