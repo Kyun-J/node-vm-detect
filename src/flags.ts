@@ -11,7 +11,6 @@ export type TechniqueFlags =
   | 'DRIVERS'
   | 'HANDLES'
   | 'VIRTUAL_PROCESSORS'
-  | 'AUDIO'
   | 'DISPLAY'
   | 'DLL'
   | 'WINE'

@@ -35,7 +35,6 @@ private:
             {"DRIVERS", {VM::DRIVERS, VM::DRIVERS}},
             {"HANDLES", {VM::HANDLES, VM::HANDLES}},
             {"VIRTUAL_PROCESSORS", {VM::VIRTUAL_PROCESSORS, VM::VIRTUAL_PROCESSORS}},
-            {"AUDIO", {VM::AUDIO, VM::AUDIO}},
             {"DISPLAY", {VM::DISPLAY, VM::DISPLAY}},
             {"DLL", {VM::DLL, VM::DLL}},
             {"WINE", {VM::WINE, VM::WINE}},
